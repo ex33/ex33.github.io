@@ -60,7 +60,7 @@ jobs:
             --exclude-path _pages/repositories.md
             --exclude-path _pages/dropdown.md 
             --exclude-path _posts
-            --exlude-path _pages/publications.md
+            --exclude-path _pages/publications.md
             --exclude-path _pages/blog.md
             --verbose
             --no-progress
