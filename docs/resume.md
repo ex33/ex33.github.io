@@ -7,11 +7,12 @@
 <div class="timeline-item">
     <span class="timeline-dot"></span>
     <div class="timeline-header">
-      <span class="timeline-org">University of Oxford</span>
-      <span class="timeline-role">DPhil in Machine Learning</span>
-      <span class="timeline-dates">Oct 2024 – <strong class="text-accent">Present</strong></span>
+      <span class="timeline-org">The Aerospace Corporation</span>
+      <span class="timeline-role">Member of the Technical Staff</span>
+      <span class="timeline-dates">July 2024 – <strong class="text-accent">Present</strong></span>
     </div>
-    <div class="timeline-desc">AI Security and Safety research supervised by Jakob Foerster.</div>
+    <div class="timeline-meta">Los Angeles, CA</div>
+    <div class="timeline-desc">Member of the RPO Integration and Analysis Department (RAID). Responsibilities includes development of high fidelity 6DOF simulations in C++/MATLAB, designing and tuning filters for orbit determination / sensor fusion, algorithm development for guidance modes / pointing, maturing Con-ops throughout design reviews, and an assortments of studies and analyses for various stakeholders. </div>
   </div>
 
   <!-- <div class="timeline-item">
