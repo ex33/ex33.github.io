@@ -110,22 +110,33 @@
     <!-- Support for Mathjax -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
-(async function() {
+async function loadQuadcopterPart1() {
     const container = document.getElementById('quadcopterPart1-content');
     try {
-        const res = await fetch('quadcopterPart1.md');
+        const res = await fetch('/md/projects/quadcopterFromScratch/quadcopterPart1.md');
         const md = await res.text();
-        marked.setOptions({ mangle: false, headerIds: false, breaks: true, gfm: true, xhtml: false });
-        container.innerHTML = marked.parse(md);
-        requestAnimationFrame(() => {
-            if (window.MathJax) {
-                MathJax.typesetPromise([container]);
-            }
+
+        marked.setOptions({
+            mangle: false,
+            headerIds: false,
+            breaks: true,
+            gfm: true,
+            xhtml: false
         });
+
+        container.innerHTML = marked.parse(md);
+
+        // Explicitly trigger MathJax
+        if (window.MathJax) {
+            MathJax.typesetPromise([container])
+                .then(() => console.log('MathJax rendered'))
+                .catch(err => console.error(err.message));
+        }
     } catch (err) {
         container.innerHTML = 'Failed to load content.';
         console.error(err);
     }
+}
 })();
 </script>
 
