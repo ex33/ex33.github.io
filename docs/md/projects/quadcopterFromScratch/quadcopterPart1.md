@@ -52,7 +52,7 @@ The control will the magnitude of the total thrust ($F_T$), along with the torqu
 $$ u = \begin{bmatrix} F_T\\\ ^B\tau_x \\\ ^B\tau_y \\\ ^B\tau_z\end{bmatrix} $$
 Before getting any further, the inertial frame must be defined. For this project, it will follow the North East Down (NED) convention for its orthogonal axis. This results in some conventions like gravity being positive (along the +Z / Down axis), and needing to commanding a negative height in order to go "Up". While this doesn't make any of the math more complicated, it needs to be noted in the case a extra negative sign or rotation seems off, its due to this convention. Naturally, this means the identity quaternion that describes the body axis being aligned with the inertial frame will have $\hat{b}$
 
-$$ x = \begin{bmatrix} x \\\x \end{bmatrix} $$
+$$ x = \begin{bmatrix} x \\\ x \end{bmatrix} $$
 [INSERT PICTURE HERE]
 
 
