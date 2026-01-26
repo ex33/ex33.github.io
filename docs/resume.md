@@ -1,115 +1,90 @@
-# Résumé
+# Selected Experiences
 
 
 
 <div class="timeline">
 
+<!-- Aerospace Corporation -->
 <div class="timeline-item">
     <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">The Aerospace Corporation</span>
-      <span class="timeline-role">Member of the Technical Staff</span>
-      <span class="timeline-dates">July 2024 – <strong class="text-accent">Present</strong></span>
-    </div>
-    <div class="timeline-meta">Los Angeles, CA</div>
-    <div class="timeline-desc">Member of the RPO Integration and Analysis Department (RAID). Responsibilities includes development of high fidelity 6DOF simulations in C++/MATLAB, designing and tuning filters for orbit determination / sensor fusion, algorithm development for guidance modes / pointing, maturing Con-ops throughout design reviews, and an assortments of studies and analyses for various stakeholders. </div>
+  <div class="timeline-header">
+    <span class="timeline-org">The Aerospace Corporation</span>
+    <span class="timeline-dates">Jul. 2024 – <strong class="text-accent">Present</strong></span>
   </div>
 
-  <!-- <div class="timeline-item">
-    <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">Cohere</span>
-      <span class="timeline-role">Intern of Technical Staff</span>
-      <span class="timeline-dates">Mar 2026 – <strong class="text-accent">Upcoming</strong></span>
+  <div class="timeline-subtitle">
+    <span class="timeline-role">Member of the Technical Staff</span>
+    <span class="timeline-meta">Los Angeles, CA</span>
+  </div>
+    <div class="timeline-desc">
+    <p>• Member of the RPO Integration and Analysis Department (RAID)</p>
+    <p>• Development of high fidelity 6DOF simulations and tools in C++/Python/MATLAB</p>
+    <p>• Designing and tuning filters for orbit determination / sensor fusion</p>
+    <p>• Algorithm development for guidance modes / pointing, verification and validation through Monte-Carlo analyses</p>
+    <p>• Maturing Con-ops throughout design reviews, communicating technical details at a high level to project leads</p>
+    <p>• Assortments of studies and analyses for various stakeholders</p>
     </div>
-    <div class="timeline-meta">London, UK • Pretraining Team</div>
-    <div class="timeline-desc">Exploring more efficient Influence Functions for AI Security applications.</div>
-  </div> -->
+  </div>
 
+<!-- Space Imaging and Optical Systems Lab -->
   <div class="timeline-item">
     <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">MATS 10.0</span>
-      <span class="timeline-role">Neel Nanda's Exploration Phase</span>
-      <span class="timeline-dates">Feb 2026 – Mar 2026</span>
-    </div>
-    <div class="timeline-meta">London, UK</div>
-    <div class="timeline-desc">Participating in 5-week Mechanistic Interpretability exploration phase.</div>
+  <div class="timeline-header">
+    <span class="timeline-org">Space Imaging & Optical Systems Lab (SIOS) </span>
+    <span class="timeline-dates">Aug. 2023 – Jan. 2024</span>
   </div>
 
-  <div class="timeline-item">
-    <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">ARENA 7.0</span>
-      <span class="timeline-role">Teaching Assistant</span>
-      <span class="timeline-dates">Jan 2026</span>
+  <div class="timeline-subtitle">
+    <span class="timeline-role">Astrodynamics Researcher</span>
+    <span class="timeline-meta">Ithaca, NY</span>
+  </div>
+    <div class="timeline-desc">
+      <p>• Investigated maneuver history reconstruction of flyby satellites utilizing statistical analysis for sparse recovery with potential applications for Non-cooperative RPO.</p>
+      <p>• Investigated Non-Convex Trajectory Optimization Problems with Analytical Solutions within the field of formation reconfigurations of satellites in LEO and rendezvous.</p>
+      <p>• Wrote an assortment of Python scripts to design satellite formations from a desired geometry, numerically optimized delta-V for rendezvous, plot and propagate relative trajectories.</p>
     </div>
-    <div class="timeline-meta">London, UK • Mech Interp Week</div>
-    <div class="timeline-desc">TA for the Mechanistic Interpretability week following running a successful hackathon for ARENA 6.0.</div>
   </div>
 
+<!-- Millennium Space Systems -->
   <div class="timeline-item">
     <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">Spotify</span>
-      <span class="timeline-role">Research Scientist Intern</span>
-      <span class="timeline-dates">Jun 2025 – Aug 2025</span>
-    </div>
-    <div class="timeline-meta">London, UK • Hybrid</div>
-    <div class="timeline-desc">Investigating mechanistic interpretability for long-context reasoning in LLMs.</div>
+  <div class="timeline-header">
+    <span class="timeline-org">Millennium Space Systems (A Boeing Company) </span>
+    <span class="timeline-dates">May 2023 - Aug 2023</span>
   </div>
 
-  <div class="timeline-item">
-    <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">UK AI Security Institute (AISI)</span>
-      <span class="timeline-role">Bounty Programme</span>
-      <span class="timeline-dates">Feb 2025 – Mar 2025</span>
+  <div class="timeline-subtitle">
+    <span class="timeline-role">Spacecraft Mechanical Engineering Intern</span>
+    <span class="timeline-meta">Los Angeles, CA</span>
+  </div>
+    <div class="timeline-desc">
+      <p>• Redesigned composite payload enclosure, resolving critical edge distance issues of multiple sensor mountings via aluminum doubler plates to provide structural reinforcement to assembly.</p>
+      <p>• Designed and prototyped harness mockup of system, discovering and resolving interference issues and helped finalize harness and harness routing design for subsystem. </p>
+      <p>• Worked with avionics engineers and harness techs to integrate components fully, and designed mass models of spacecraft components/assemblies for vibrational analysis.</p>
     </div>
-    <div class="timeline-meta">Remote • Contract</div>
-    <div class="timeline-desc">Investigating the automated design of agentic systems for cybersecurity benchmarks.</div>
   </div>
 
+<!-- Space System Design Studio -->
   <div class="timeline-item">
     <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">Convergence</span>
-      <span class="timeline-role">Founding Member of Research Staff</span>
-      <span class="timeline-dates">Jul 2024 – Sep 2024</span>
-    </div>
-    <div class="timeline-meta">London, UK • On-site</div>
-    <div class="timeline-desc">Exploring automation and collaboration with web agents. <span class="text-accent">Acquired by Salesforce</span>.</div>
+  <div class="timeline-header">
+    <span class="timeline-org">Space System Design Studio (SSDS) </span>
+    <span class="timeline-dates">Jan 2022 - May 2023</span>
   </div>
 
-  <div class="timeline-item">
-    <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">Pynea</span>
-      <span class="timeline-role">Principal Machine Learning Engineer</span>
-      <span class="timeline-dates">Jan 2024 – Jul 2024</span>
+  <div class="timeline-subtitle">
+    <span class="timeline-role">Structural Analyst / GNC Engineer</span>
+    <span class="timeline-meta">Ithaca, NY</span>
+  </div>
+    <div class="timeline-desc">
+      <p>• Led structural analysis efforts, conducting trade studies behind system level structure design and deriving stiffness requirements for the Cislunar Explorer CubeSat, which features novel optical navigation technology and water electrolysis propulsion.</p>
+      <p>• Designed and analyzed shear panels, structural rails, bulkheads, and overall 12U CubeSat architecture, using ANSYS Structural and Modal Analysis to meet natural frequency requirements of the launch provider user guide.</p>
+      <p>• Designed, tuned and analyzed PID controllers for position and attitude of Magnus Ultralight, a quadcopter utilizing a spinning cylinder mounted to airframe to generate lift via the Magnus Effect.</p>
+      <p>• Derived system dynamics based and developed nonlinear 6DOF simulation in Simulink based on first-principles.</p>
+      <p>• Collaborated with mechanical team on integrating system assembly/manufacturing components and developed test procedures to identify select system parameters to improve simulation.</p>
     </div>
-    <div class="timeline-meta">London, UK • On-site</div>
-    <div class="timeline-desc">Building recommender and search systems. Exploring geometric deep learning.</div>
   </div>
 
-  <div class="timeline-item">
-    <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">Artera</span>
-      <span class="timeline-role">Lead Software Engineer (Founding Team)</span>
-      <span class="timeline-dates">Sep 2022 – Dec 2023</span>
-    </div>
-    <div class="timeline-meta">London, UK • On-site</div>
-    <div class="timeline-desc">Leading the engineering team and developing foundational machine learning and computer vision algorithms.</div>
-  </div>
 
-  <div class="timeline-item">
-    <span class="timeline-dot"></span>
-    <div class="timeline-header">
-      <span class="timeline-org">University of Oxford</span>
-      <span class="timeline-role">Master of Engineering</span>
-      <span class="timeline-dates">Sep 2018 – Sep 2022</span>
-    </div>
-    <div class="timeline-meta">First Class • Academic Scholarship</div>
-  </div>
+
 </div>

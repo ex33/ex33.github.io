@@ -25,7 +25,7 @@ python -m http.server 8000 -d docs/
 ## Structure
 
 - `docs/index.html` - Main page
-- `docs/*.md` - Content (about, publications, resume)
+- `docs/*.md` - Content (about, projects, resume)
 - `docs/styles.css` - Styling
 - `docs/script.js` - Functionality
 
