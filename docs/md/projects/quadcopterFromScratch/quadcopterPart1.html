@@ -112,6 +112,25 @@
 <script>
 (async function() {
     const container = document.getElementById('quadcopterPart1-content');
+    try {
+        const res = await fetch('../../../content/quadcopterPart1.md');
+        const md = await res.text();
+        marked.setOptions({ mangle: false, headerIds: false, breaks: true, gfm: true, xhtml: false });
+        container.innerHTML = marked.parse(md);
+        requestAnimationFrame(() => {
+            if (window.MathJax) {
+                MathJax.typesetPromise([container]);
+            }
+        });
+    } catch (err) {
+        container.innerHTML = 'Failed to load content.';
+        console.error(err);
+    }
+})();
+</script>
+<!-- <script>
+(async function() {
+    const container = document.getElementById('quadcopterPart1-content');
 
     try {
         const res = await fetch('quadcopterPart1.md');
@@ -143,7 +162,7 @@
         console.error(err);
     }
 })();
-</script>
+</script> -->
     <!-- End -->
 </body>
 </html>
