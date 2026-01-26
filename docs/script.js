@@ -301,7 +301,12 @@ class MarkdownLoader {
                 const html = this.parseMarkdown(markdown);
                 contentElement.innerHTML = html;
 
-
+                // === TRIGGER MATHJAX HERE ===
+                if (window.MathJax) {
+                    MathJax.typesetPromise([contentElement])
+                        .then(() => console.log(`MathJax rendered for ${section}`))
+                        .catch(err => console.error(err.message));
+                }
 
                 console.log(`Successfully loaded ${section} from: ${fullPath}`);
                 return; // success, stop trying paths
