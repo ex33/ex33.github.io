@@ -109,7 +109,32 @@
 
     <!-- Support for Mathjax -->
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('quadcopterPart1-content');
+    if (!container) return;
+
+    try {
+        const res = await fetch('quadcopterPart1.md'); // make sure path is correct
+        if (!res.ok) throw new Error('Failed to fetch MD file');
+
+        const md = await res.text();
+        marked.setOptions({ mangle: false, headerIds: false, breaks: true, gfm: true, xhtml: false });
+        container.innerHTML = marked.parse(md);
+
+        if (window.MathJax) {
+            MathJax.typesetPromise([container])
+                .then(() => console.log('MathJax rendered'))
+                .catch(err => console.error(err.message));
+        }
+    } catch (err) {
+        container.innerHTML = 'Failed to load content.';
+        console.error(err);
+    }
+});
+</script>
+<!-- <script>
 async function loadQuadcopterPart1() {
     const container = document.getElementById('quadcopterPart1-content');
     if (!container) return;
@@ -138,7 +163,7 @@ async function loadQuadcopterPart1() {
 
 // Call immediately if this page loaded normally
 loadQuadcopterPart1();
-</script>
+</script> -->
 
 </body>
 </html>
