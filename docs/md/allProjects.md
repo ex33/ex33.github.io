@@ -26,7 +26,7 @@ Here is a comprehensive list of my current and completed projects.
     </div>
     <div class="project-content">
         <h3 class="project-title">
-            <a href="/md/projects/quadcopterFromScratch/quadcopterPart1.html" class="project-link">
+            <a href="/md/projects/quadcopterFromScratch/quadcopterPart1.html" class="project-link" target="_self">
                 Quadcopter from Scratch: 6DOF MATLAB Simulation
             </a>
         </h3>
