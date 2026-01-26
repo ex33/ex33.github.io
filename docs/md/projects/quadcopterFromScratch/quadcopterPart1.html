@@ -113,7 +113,7 @@
 (async function() {
     const container = document.getElementById('quadcopterPart1-content');
     try {
-        const res = await fetch('../../../content/quadcopterPart1.md');
+        const res = await fetch('quadcopterPart1.md');
         const md = await res.text();
         marked.setOptions({ mangle: false, headerIds: false, breaks: true, gfm: true, xhtml: false });
         container.innerHTML = marked.parse(md);
@@ -128,41 +128,6 @@
     }
 })();
 </script>
-<!-- <script>
-(async function() {
-    const container = document.getElementById('quadcopterPart1-content');
 
-    try {
-        const res = await fetch('quadcopterPart1.md');
-        const md = await res.text();
-
-        // Disable escaping of backslashes for MathJax
-        marked.setOptions({
-            mangle: false,
-            headerIds: false,
-            breaks: true,
-            gfm: true,
-            xhtml: false
-        });
-
-        // Convert Markdown to HTML
-        container.innerHTML = marked.parse(md);
-
-        // Wait for the browser to render DOM
-        requestAnimationFrame(() => {
-            if (window.MathJax) {
-                MathJax.typesetPromise([container])
-                    .then(() => console.log('MathJax rendered'))
-                    .catch(err => console.error(err.message));
-            }
-        });
-
-    } catch (err) {
-        container.innerHTML = 'Failed to load content.';
-        console.error(err);
-    }
-})();
-</script> -->
-    <!-- End -->
 </body>
 </html>
