@@ -262,11 +262,11 @@ class MarkdownLoader {
     constructor() {
         // Map HTML section IDs to markdown files
         this.sections = {
-            'about': './md/about.md',
-            'selectedProjects': './md/selectedProjects.md',
-            'selectedExperiences': './md/selectedExperiences.md',
-            'allProjects': './md/allProjects.md',       
-            'allExperiences': './md/allExperiences.md',
+            'about': 'md/about.md',
+            'selectedProjects': 'md/selectedProjects.md',
+            'selectedExperiences': 'md/selectedExperiences.md',
+            'allProjects': 'md/allProjects.md',       
+            'allExperiences': 'md/allExperiences.md',
             'quadcopterPart1': 'quadcopterPart1.md' // relative to quadcopterPart1.html
         };
         this.init();
@@ -373,15 +373,11 @@ document.addEventListener('DOMContentLoaded', () => {
     new MarkdownLoader();
     
 
-    // Initialize party hat explosion feature
-    new PartyHatExplosion();
-    
     // Add loading state management
     document.body.classList.add('loaded');
     
     // Console message for developers
     console.log('🌵 Portfolio site loaded successfully!');
-    console.log('🎉 Click the logo for a party surprise!');
     console.log('Built with inspiration from astro-theme-cactus');
 });
 
@@ -406,189 +402,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Party Hat Explosion Feature
-class PartyHatExplosion {
-    constructor() {
-        this.isAnimating = false;
-        this.init();
-    }
-
-    init() {
-        // Find the logo link and add click handler
-        const logoLink = document.querySelector('#main-header a[href="#"]');
-        if (logoLink) {
-            logoLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.triggerExplosion();
-            });
-        }
-    }
-
-    triggerExplosion() {
-        // Check if user prefers reduced motion
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) {
-            // Just do a simple pulse for users who prefer reduced motion
-            const logoSvg = document.querySelector('#main-header svg');
-            if (logoSvg) {
-                logoSvg.classList.add('logo-party-pulse');
-                setTimeout(() => {
-                    logoSvg.classList.remove('logo-party-pulse');
-                }, 600);
-            }
-            return;
-        }
-        
-        // Get logo position for explosion origin
-        const logoSvg = document.querySelector('#main-header svg');
-        if (!logoSvg) return;
-        
-        const logoRect = logoSvg.getBoundingClientRect();
-        const centerX = logoRect.left + logoRect.width / 2;
-        const centerY = logoRect.top + logoRect.height / 2;
-        const explosionId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-        
-        // Add pulse animation to logo
-        logoSvg.classList.add('logo-party-pulse');
-        
-        // Create party hats explosion
-        this.createPartyHats(centerX, centerY, explosionId);
-        
-        // Create sparkles
-        this.createSparkles(centerX, centerY, explosionId);
-        
-        // Clean up after animation
-        setTimeout(() => {
-            logoSvg.classList.remove('logo-party-pulse');
-            // Clean up any remaining elements for this explosion only
-            this.cleanupExplosionElements(explosionId);
-        }, 2500);
-    }
-
-    cleanupExplosionElements(explosionId) {
-        // Remove any remaining party hats for this explosion
-        const remainingHats = document.querySelectorAll(`.party-hat[data-explosion="${explosionId}"]`);
-        remainingHats.forEach(hat => {
-            if (hat.parentNode) {
-                hat.parentNode.removeChild(hat);
-            }
-        });
-        
-        // Remove any remaining sparkles for this explosion
-        const remainingSparkles = document.querySelectorAll(`.party-sparkle[data-explosion="${explosionId}"]`);
-        remainingSparkles.forEach(sparkle => {
-            if (sparkle.parentNode) {
-                sparkle.parentNode.removeChild(sparkle);
-            }
-        });
-    }
-
-    createPartyHats(centerX, centerY, explosionId) {
-        const hatCount = 12; // Number of party hats to create
-        const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57', '#ff9ff3', '#54a0ff', '#5f27cd'];
-        
-        for (let i = 0; i < hatCount; i++) {
-            const hat = document.createElement('div');
-            hat.className = 'party-hat';
-            hat.setAttribute('data-explosion', explosionId);
-            
-            // Create party hat SVG
-            hat.innerHTML = this.getPartyHatSVG(colors[i % colors.length]);
-            
-            // Calculate explosion direction
-            const angle = (360 / hatCount) * i;
-            const radian = (angle * Math.PI) / 180;
-            const distance = 150 + Math.random() * 100; // Random distance between 150-250px
-            
-            const targetX = centerX + Math.cos(radian) * distance;
-            const targetY = centerY + Math.sin(radian) * distance;
-            
-            // Set initial position
-            hat.style.left = centerX + 'px';
-            hat.style.top = centerY + 'px';
-            
-            // Add to DOM
-            document.body.appendChild(hat);
-            
-            // Trigger animation with slight delay for staggered effect
-            setTimeout(() => {
-                hat.classList.add('exploding');
-                hat.style.left = targetX + 'px';
-                hat.style.top = targetY + 'px';
-                hat.style.transition = 'left 2s cubic-bezier(0.25, 0.46, 0.45, 0.94), top 2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            }, i * 50);
-            
-            // Clean up after animation
-            setTimeout(() => {
-                if (hat.parentNode) {
-                    hat.parentNode.removeChild(hat);
-                }
-            }, 2500);
-        }
-    }
-
-    createSparkles(centerX, centerY, explosionId) {
-        const sparkleCount = 20;
-        
-        for (let i = 0; i < sparkleCount; i++) {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'party-sparkle';
-            sparkle.setAttribute('data-explosion', explosionId);
-            
-            // Random colors for sparkles
-            const hue = Math.random() * 360;
-            sparkle.style.background = `hsl(${hue}, 70%, 60%)`;
-            
-            // Calculate explosion direction
-            const angle = Math.random() * 360;
-            const radian = (angle * Math.PI) / 180;
-            const distance = 80 + Math.random() * 120;
-            
-            const targetX = centerX + Math.cos(radian) * distance;
-            const targetY = centerY + Math.sin(radian) * distance;
-            
-            // Set initial position
-            sparkle.style.left = centerX + 'px';
-            sparkle.style.top = centerY + 'px';
-            
-            // Add to DOM
-            document.body.appendChild(sparkle);
-            
-            // Trigger animation with slight delay
-            setTimeout(() => {
-                sparkle.classList.add('exploding');
-                sparkle.style.left = targetX + 'px';
-                sparkle.style.top = targetY + 'px';
-                sparkle.style.transition = 'left 1.5s ease-out, top 1.5s ease-out';
-            }, i * 30);
-            
-            // Clean up after animation
-            setTimeout(() => {
-                if (sparkle.parentNode) {
-                    sparkle.parentNode.removeChild(sparkle);
-                }
-            }, 2000);
-        }
-    }
-
-    getPartyHatSVG(color) {
-        return `
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <!-- Party hat triangle -->
-                <path d="M50 10 L20 80 L80 80 Z" fill="${color}" stroke="#333" stroke-width="2"/>
-                <!-- Hat brim -->
-                <ellipse cx="50" cy="80" rx="30" ry="8" fill="#333"/>
-                <!-- Decorative stripes -->
-                <path d="M25 35 L75 35" stroke="white" stroke-width="2" opacity="0.8"/>
-                <path d="M30 50 L70 50" stroke="white" stroke-width="2" opacity="0.8"/>
-                <path d="M35 65 L65 65" stroke="white" stroke-width="2" opacity="0.8"/>
-                <!-- Pom-pom on top -->
-                <circle cx="50" cy="10" r="6" fill="white" stroke="#333" stroke-width="1"/>
-                <circle cx="50" cy="10" r="3" fill="${color}"/>
-            </svg>
-        `;
-    }
-}
 
 // Add reduced motion support
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
