@@ -112,32 +112,32 @@
 <script>
 async function loadQuadcopterPart1() {
     const container = document.getElementById('quadcopterPart1-content');
+    if (!container) return;
+
     try {
-        const res = await fetch('/md/projects/quadcopterFromScratch/quadcopterPart1.md');
+        // Fetch the Markdown file
+        const res = await fetch('quadcopterPart1.md');
         const md = await res.text();
 
-        marked.setOptions({
-            mangle: false,
-            headerIds: false,
-            breaks: true,
-            gfm: true,
-            xhtml: false
-        });
-
+        // Convert Markdown to HTML
+        marked.setOptions({ mangle: false, headerIds: false, breaks: true, gfm: true, xhtml: false });
         container.innerHTML = marked.parse(md);
 
-        // Explicitly trigger MathJax
+        // Trigger MathJax to render equations
         if (window.MathJax) {
             MathJax.typesetPromise([container])
                 .then(() => console.log('MathJax rendered'))
                 .catch(err => console.error(err.message));
         }
+
     } catch (err) {
         container.innerHTML = 'Failed to load content.';
         console.error(err);
     }
 }
-})();
+
+// Call immediately if this page loaded normally
+loadQuadcopterPart1();
 </script>
 
 </body>
