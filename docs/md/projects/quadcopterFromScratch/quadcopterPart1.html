@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eric Xue - Portfolio</title>
-    <meta name="description" content="GNC Engineer">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <link rel="stylesheet" href="styles.css">
+    <title>Eric Xue - Projects</title>
+    <meta name="description" content="GNC Engineer Projects">
+    <link rel="icon" type="image/x-icon" href="../../../assets/favicon.ico">
+    <link rel="stylesheet" href="../../../styles.css">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         (function() {
@@ -18,30 +18,53 @@
                 document.documentElement.setAttribute('data-theme', 'light');
             }
         })();
+
     </script>
+  <!-- MathJax -->
+    <script>
+        window.MathJax = {
+        tex: {
+            packages: ['base', 'ams'], // <-- add 'ams' here for bmatrix
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+
 </head>
+
+
+
 <body class="bg-global-bg text-global-text antialiased">
-    <!-- Fixed Header -->
+    <main class="mx-auto max-w-3xl px-4 sm:px-8">
+
+    <!-- Back to Projects Link -->
+
+    <a href="../../../projects.html" class="back-to-projects">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span class="ml-1">Back to Projects</span>
+    </a>
+
+
+    <!-- Header -->
     <header id="main-header" class="group">
         <div class="header-grid">
             <!-- Logo -->
             <a href="#" class="group header-logo flex items-center">
-                <img src="assets/logo.png" alt="Eric Xue Logo" class="h-10 w-auto sm:h-20">
+                <img src="../../../assets/logo.png" alt="Eric Xue Logo" class="h-10 w-auto sm:h-20">
             </a>
 
-            <!-- Title -->
             <div class="header-title">
                 <span class="text-xl font-bold sm:text-2xl">Eric Xue</span>
             </div>
-
-            <!-- Desktop Navigation -->
             <nav class="mobile-nav-menu header-nav sm:flex sm:flex-row sm:items-center" id="navigation-menu">
-                <a href="index.html">About</a>
-                <a href="projects.html">Projects</a>
-                <a href="experiences.html">Experiences</a>
+                <a href="../../../index.html">About</a>
+                <a href="../../../projects.html">Projects</a>
+                <a href="../../../experiences.html">Experiences</a>
             </nav>
-
-            <!-- Controls -->
             <div class="header-controls flex items-center gap-3">
                 <!-- Theme Toggle -->
                 <button id="theme-toggle" class="flex h-7 w-7 items-center justify-center rounded-md border border-accent-2/20 bg-accent-2/10 p-1 transition-colors hover:bg-accent-2/20" aria-label="Switch to dark theme">
@@ -52,7 +75,6 @@
                         <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
                     </svg>
                 </button>
-
                 <!-- Mobile Menu Toggle -->
                 <button id="toggle-navigation-menu" class="flex h-7 w-7 items-center justify-center rounded-md border border-accent-2/20 bg-accent-2/10 p-1 transition-colors hover:bg-accent-2/20 sm:hidden" aria-expanded="false" aria-label="Toggle navigation menu">
                     <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,36 +90,60 @@
 
     <!-- Main Content -->
     <main class="mx-auto max-w-3xl px-4 sm:px-8">
-        <!-- About Section -->
-        <section id="about" class="mb-16">
-            <div class="prose" id="about-content">
-                <div class="loading-spinner">Loading about content...</div>
-            </div>
-        </section>
-
-
-        <!-- Some Projects Section -->
-        <section id="selectedProjects" class="mb-16">
-            <div class="prose" id="selectedProjects-content">
-                <div class="loading-spinner">Loading projects content...</div>
-            </div>
-        </section>
-
-        <!-- Some Experiences Section -->
-        <section id="selectedExperiences" class="mb-16">
-            <div class="prose" id="selectedExperiences-content">
-                <div class="loading-spinner">Loading experiences content...</div>
+        <section id="quadcopterPart1" class="mb-16">
+            <div class="prose" id="quadcopterPart1-content">
+                <!-- Content will be loaded here dynamically -->
             </div>
         </section>
     </main>
 
     <!-- Footer -->
-<footer class="mx-auto max-w-3xl px-4 sm:px-8 py-6 text-center text-sm text-gray-500 flex flex-col sm:flex-row justify-center items-center gap-4">
-    <span>© 2026 Eric Xue</span> |
-    <a href="https://github.com/ex33" target="_blank" class="hover:underline">GitHub</a> | 
-    <a href="https://www.linkedin.com/in/e-xue" target="_blank" class="hover:underline">LinkedIn</a>
-</footer>
+    <footer class="mx-auto max-w-3xl px-4 sm:px-8 py-6 text-center text-sm text-gray-500 flex flex-col sm:flex-row justify-center items-center gap-4">
+        <span>© 2026 Eric Xue</span> |
+        <a href="https://github.com/ex33" target="_blank" class="hover:underline">GitHub</a> | 
+        <a href="https://www.linkedin.com/in/e-xue" target="_blank" class="hover:underline">LinkedIn</a>
+    </footer>
 
-    <script src="script.js"></script>
+    <script src="../../../script.js"></script>
+
+
+    <!-- Support for Mathjax -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+(async function() {
+    const container = document.getElementById('quadcopterPart1-content');
+
+    try {
+        const res = await fetch('../../../content/quadcopterPart1.md');
+        const md = await res.text();
+
+        // Disable escaping of backslashes for MathJax
+        marked.setOptions({
+            mangle: false,
+            headerIds: false,
+            breaks: true,
+            gfm: true,
+            xhtml: false
+        });
+
+        // Convert Markdown to HTML
+        container.innerHTML = marked.parse(md);
+
+        // Wait for the browser to render DOM
+        requestAnimationFrame(() => {
+            if (window.MathJax) {
+                MathJax.typesetPromise([container])
+                    .then(() => console.log('MathJax rendered'))
+                    .catch(err => console.error(err.message));
+            }
+        });
+
+    } catch (err) {
+        container.innerHTML = 'Failed to load content.';
+        console.error(err);
+    }
+})();
+</script>
+    <!-- End -->
 </body>
 </html>

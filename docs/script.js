@@ -260,221 +260,104 @@ class LazyImageLoader {
 // Markdown content loader
 class MarkdownLoader {
     constructor() {
-        this.sections = ['about', 'news', 'projects', 'resume'];
+        // Map HTML section IDs to markdown files
+        this.sections = {
+            'about': './md/about.md',
+            'selectedProjects': './md/selectedProjects.md',
+            'selectedExperiences': './md/selectedExperiences.md',
+            'allProjects': './md/allProjects.md',       
+            'allExperiences': './md/allExperiences.md',
+            'quadcopterPart1': 'quadcopterPart1.md' // relative to quadcopterPart1.html
+        };
         this.init();
     }
 
     init() {
-        // Load all markdown sections
-        this.sections.forEach(section => {
+        for (const section of Object.keys(this.sections)) {
             this.loadMarkdown(section);
-        });
+        }
     }
 
     async loadMarkdown(section) {
         const contentElement = document.getElementById(`${section}-content`);
         if (!contentElement) return;
 
-        // Try multiple path strategies for better compatibility
+        const path = this.sections[section];
         const pathsToTry = [
-            `./${section}.md`,           // Relative to current directory
-            `${section}.md`,             // Direct relative path
-            `/${section}.md`             // Absolute from root (for some GitHub Pages setups)
+            path,
+            `/${path}`,
+            path.replace('./', '') // GitHub Pages sometimes needs this
         ];
 
         let lastError = null;
-        
+
         for (const fullPath of pathsToTry) {
             try {
                 console.log(`Trying to fetch: ${fullPath}`);
                 const response = await fetch(fullPath);
-                if (response.ok) {
-                    const markdown = await response.text();
-                    const html = this.parseMarkdown(markdown);
-                    contentElement.innerHTML = html;
-                    // Apply hover effect to new content
-                    if (typeof window.applyBHoverEffect === 'function') {
-                        window.applyBHoverEffect(contentElement);
-                    }
-                    console.log(`Successfully loaded ${section} from: ${fullPath}`);
-                    return; // Success, exit early
-                } else {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-            } catch (error) {
-                console.warn(`Failed to load ${section} from ${fullPath}:`, error.message);
-                lastError = error;
-                // Continue to next path
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const markdown = await response.text();
+                const html = this.parseMarkdown(markdown);
+                contentElement.innerHTML = html;
+
+
+
+                console.log(`Successfully loaded ${section} from: ${fullPath}`);
+                return; // success, stop trying paths
+            } catch (err) {
+                lastError = err;
+                console.warn(`Failed to load ${section} from ${fullPath}: ${err.message}`);
             }
         }
 
-        // If we get here, all paths failed
-        console.error(`Error loading ${section} content - all paths failed:`, lastError);
-        console.log(`Current location: ${window.location.href}`);
+        // If all paths fail
         contentElement.innerHTML = `
             <div class="error-message">
-                <p>Sorry, unable to load ${section} content at this time.</p>
-                <p><small>Last error: ${lastError?.message || 'Unknown error'}</small></p>
-                <p><small>Tried paths: ${pathsToTry.join(', ')}</small></p>
+                <p>Could not load ${section} content.</p>
+                <small>${lastError?.message || 'Unknown error'}</small>
             </div>
         `;
-        // Apply hover effect to error content
-        if (typeof window.applyBHoverEffect === 'function') {
-            window.applyBHoverEffect(contentElement);
-        }
     }
 
     parseMarkdown(markdown) {
         let html = markdown;
 
-        // Convert headers
+        // Headers
         html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
         html = html.replace(/^## (.*$)/gim, '<h2 class="title">$1</h2>');
         html = html.replace(/^# (.*$)/gim, '<h1 class="title">$1</h1>');
 
-        // Convert bold text
+        // Bold
         html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-        // Convert italic text
+        // Italic
         html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-
-        // Convert links
+        // Links
         html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="cactus-link">$1</a>');
 
-        // Convert unordered lists
+        // Unordered lists
         html = html.replace(/^\s*- (.+)$/gm, '<li>$1</li>');
         html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
 
-        // Convert paragraphs (split by double newlines)
+        // Paragraphs
         const paragraphs = html.split(/\n\s*\n/);
         html = paragraphs.map(p => {
             p = p.trim();
             if (!p) return '';
-            
-            // Skip if already wrapped in HTML tags
             if (p.startsWith('<') && p.endsWith('>')) return p;
             if (p.includes('<li>') || p.includes('<h') || p.includes('<ul>') || p.includes('<div')) return p;
-            
             return `<p>${p}</p>`;
         }).join('\n\n');
 
-        // Clean up nested tags
         html = html.replace(/<ul>\s*(<li>.*?<\/li>)\s*<\/ul>/gs, '<ul>$1</ul>');
         html = html.replace(/<li><\/li>/g, '');
-
-        // Convert horizontal rules
         html = html.replace(/^---$/gm, '<hr>');
 
         return html;
     }
 }
 
-// Hover effect for letter 'b' and 'B'
-(function() {
-    function applyBHoverEffect(root) {
-        const targetRoot = root || document.body;
-        if (!targetRoot) return;
 
-        const walker = document.createTreeWalker(
-            targetRoot,
-            NodeFilter.SHOW_TEXT,
-            {
-                acceptNode(node) {
-                    const value = node.nodeValue;
-                    if (!value || (value.indexOf('b') === -1 && value.indexOf('B') === -1)) {
-                        return NodeFilter.FILTER_REJECT;
-                    }
-                    const parent = node.parentNode;
-                    if (!parent) return NodeFilter.FILTER_REJECT;
-                    const tag = parent.nodeName;
-                    if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') {
-                        return NodeFilter.FILTER_REJECT;
-                    }
-                    if (parent.classList && parent.classList.contains('hover-b')) {
-                        return NodeFilter.FILTER_REJECT;
-                    }
-                    return NodeFilter.FILTER_ACCEPT;
-                }
-            }
-        );
-
-        const nodesToProcess = [];
-        let current;
-        while ((current = walker.nextNode())) {
-            nodesToProcess.push(current);
-        }
-
-        nodesToProcess.forEach((textNode) => {
-            const text = textNode.nodeValue;
-            const fragment = document.createDocumentFragment();
-            let buffer = '';
-
-            for (let i = 0; i < text.length; i++) {
-                const ch = text[i];
-                if (ch === 'b' || ch === 'B') {
-                    if (buffer) {
-                        fragment.appendChild(document.createTextNode(buffer));
-                        buffer = '';
-                    }
-                    const span = document.createElement('span');
-                    span.className = 'hover-b';
-                    span.textContent = ch;
-                    fragment.appendChild(span);
-                } else {
-                    buffer += ch;
-                }
-            }
-
-            if (buffer) {
-                fragment.appendChild(document.createTextNode(buffer));
-            }
-
-            if (textNode.parentNode) {
-                textNode.parentNode.replaceChild(fragment, textNode);
-            }
-        });
-    }
-
-    window.applyBHoverEffect = applyBHoverEffect;
-})();
-
-// Bee spawning when clicking on a 'b'/'B'
-(function() {
-    function spawnBeeFromElement(el) {
-        const rect = el.getBoundingClientRect();
-        const startX = rect.left + rect.width / 2;
-        const startY = rect.top + rect.height / 2;
-
-        const bee = document.createElement('div');
-        bee.className = 'flying-bee';
-        bee.textContent = '🐝';
-        bee.style.left = startX + 'px';
-        bee.style.top = startY + 'px';
-
-        // Random off-screen direction
-        const angle = Math.random() * Math.PI * 2;
-        const distance = Math.max(window.innerWidth, window.innerHeight) + 200;
-        const dx = Math.cos(angle) * distance;
-        const dy = Math.sin(angle) * distance;
-        bee.style.setProperty('--dx', dx + 'px');
-        bee.style.setProperty('--dy', dy + 'px');
-
-        document.body.appendChild(bee);
-
-        const cleanup = () => {
-            if (bee && bee.parentNode) bee.parentNode.removeChild(bee);
-        };
-        bee.addEventListener('animationend', cleanup, { once: true });
-        setTimeout(cleanup, 4000);
-    }
-
-    document.addEventListener('click', (e) => {
-        const target = e.target;
-        if (target && target.classList && target.classList.contains('hover-b')) {
-            spawnBeeFromElement(target);
-        }
-    });
-})();
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -489,10 +372,6 @@ document.addEventListener('DOMContentLoaded', () => {
     new LazyImageLoader();
     new MarkdownLoader();
     
-    // Apply hover effect to all 'b' letters on initial content
-    if (typeof window.applyBHoverEffect === 'function') {
-        window.applyBHoverEffect(document.body);
-    }
 
     // Initialize party hat explosion feature
     new PartyHatExplosion();

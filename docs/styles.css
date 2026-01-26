@@ -1,6 +1,7 @@
 /* Reset and base styles */
-* {
+body, body *:not(.MathJax) {
     box-sizing: border-box;
+    transition: opacity 0.2s ease;
 }
 
 html {
@@ -182,56 +183,8 @@ body {
     text-decoration-thickness: 2px;
 }
 
-/* Hover color for individual 'b'/'B' letters */
-.hover-b {
-    transition: color 0.15s ease;
-}
-.hover-b:hover {
-    color: #ffd400; /* yellow */
-}
 
-/* Flying bee emoji created on clicking a 'b' */
-.flying-bee {
-    position: fixed;
-    z-index: 9999;
-    pointer-events: none;
-    font-size: 1.2em;
-    line-height: 1;
-    will-change: transform, opacity;
-    animation: bee-fly 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
 
-@keyframes bee-fly {
-    0% {
-        transform: translate(0, 0) rotate(0deg);
-        opacity: 1;
-    }
-    20% {
-        transform: translate(calc(var(--dx) * 0.2), calc(var(--dy) * 0.2)) rotate(90deg);
-    }
-    40% {
-        transform: translate(calc(var(--dx) * 0.4 + 6px), calc(var(--dy) * 0.4 - 4px)) rotate(180deg);
-    }
-    60% {
-        transform: translate(calc(var(--dx) * 0.6 - 4px), calc(var(--dy) * 0.6 + 6px)) rotate(270deg);
-    }
-    80% {
-        transform: translate(calc(var(--dx) * 0.8 + 3px), calc(var(--dy) * 0.8 - 3px)) rotate(360deg);
-    }
-    100% {
-        transform: translate(var(--dx), var(--dy)) rotate(450deg);
-        opacity: 0;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .flying-bee {
-        animation: bee-fade 250ms ease-out forwards;
-    }
-    @keyframes bee-fade {
-        to { opacity: 0; }
-    }
-}
 
 /* Header styles */
 #main-header {
@@ -480,7 +433,8 @@ body {
 .prose h4 { font-size: 1.25rem; }
 
 .prose p {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.6;
 }
 
 .prose ul, .prose ol {
@@ -651,6 +605,66 @@ body {
     background-color: var(--color-accent);
     color: var(--color-global-bg);
     transform: translateY(-1px);
+}
+
+/* Desktop style */
+.back-to-projects {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--color-accent-2);
+    text-decoration: none;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.back-to-projects:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+/* Mobile overlay style */
+@media (max-width: 640px) {
+    .back-to-projects {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        background-color: color-mix(in srgb, var(--color-global-bg) 98%, transparent) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        z-index: 150 !important;
+        display: none !important; /* only show when active */
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 2rem !important;
+        padding: 2rem !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+
+    .back-to-projects.active {
+        display: flex !important;
+    }
+
+    .back-to-projects:hover {
+        background-color: var(--color-accent) !important;
+        color: var(--color-global-bg) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent) 30%, transparent) !important;
+    }
 }
 
 /* Smooth transitions */
@@ -973,7 +987,7 @@ html {
     width: fit-content;
 }
 
-.project-authors {
+.project-description {
     font-size: 0.875rem;
     color: var(--color-global-text);
     opacity: 0.8;
@@ -1011,37 +1025,37 @@ html {
     transition: opacity 0.2s ease;
 }
 
-.tag-safety {
+.tag-language {
     background-color: color-mix(in srgb, #ef4444 15%, transparent);
     border-color: #ef4444;
     color: #ef4444;
 }
 
-.tag-interpretability {
+.tag-control {
     background-color: color-mix(in srgb, #af67ff 15%, transparent);
     border-color: #af67ff;
     color: #af67ff;
 }
 
-.tag-arxiv {
+.tag-estimation {
     background-color: color-mix(in srgb, #10b981 15%, transparent);
     border-color: #10b981;
     color: #10b981;
 }
 
-.tag-workshop {
+.tag-misc {
     background-color: color-mix(in srgb, #f59e0b 15%, transparent);
     border-color: #f59e0b;
     color: #f59e0b;
 }
 
-.tag-conference {
+.tag-astro {
     background-color: color-mix(in srgb, #3b82f6 15%, transparent);
     border-color: #3b82f6;
     color: #3b82f6;
 }
 
-.tag-bibtex {
+.tag-software {
     background-color: color-mix(in srgb, #6b7280 15%, transparent);
     border-color: #6b7280;
     color: #6b7280;
@@ -1292,6 +1306,34 @@ html {
     text-indent: -1.5rem;   /* make the bullet stick out */
 }
 
+.projects-list p {
+  margin: 0.25rem 0;
+}
+
+.projects-list strong {
+  display: block;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.sub-bullet {
+    margin-left: 0.75rem;
+}
+
+
+
+
+/* Make MathJax inherit font size from its parent */
+.prose .mjx-chtml {
+    font-size: inherit !important;
+    line-height: normal !important; /* restore proper matrix spacing */
+}
+
+/* Optional: adjust spacing if needed */
+.prose .mjx-chtml svg {
+    vertical-align: middle; /* aligns nicely with text */
+}
+
 @media (max-width: 640px) {
     .timeline {
         --gutter: 2rem;
@@ -1303,4 +1345,11 @@ html {
         margin-left: 0;
         opacity: 0.8;
     }
+}
+.mjx-chtml {
+    display: inline-block !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    line-height: normal !important;
+    vertical-align: middle !important;
 }
