@@ -1,5 +1,7 @@
 # Selected Projects
 
+More under "Projects" tab.
+
 ## 2026
 
 <div class="project-card">

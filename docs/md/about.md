@@ -53,5 +53,5 @@ Some of the courses I have taken includes:
 
 </div>
 
-Below are some select projects and aerospace experiences. Links to the full comprehensive lists of either are above. 
+Below are some selected projects and aerospace experiences.
 
