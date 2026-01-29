@@ -22,14 +22,14 @@ Seeing as drones and satellites have nothing in common aside from the control an
 <strong>Disclaimer: </strong> <br>
 The L1 goal for this project is to have a fully customized GNC system flying on a quadcopter. This means that I am not trying to build the best system, nor do anything particularly novel (yet). The focus for me is to learn more about GNC through a platform that is controllable and can be done at home after work (so no model rocket). I also make choices that may not be optimal to save on time, as even a couple hours of delay can result in several buisness days until I have the time to work on this again. <br>
 
-I also put the from "scratch" in quotation marks since having a full time job means it isn't feasible to learn every single discipline needed to fully do this all from zero. This means I use breakout boards for sensors with readily implemented libraries and prototyping boards to contain all my electronics (rather than commerically avaliable flight computer boards) to delay having to learn low level programming and PCB design (both of which I hope to do in the future). <br>
+I put the from "scratch" in quotation marks since having a full time job means it isn't feasible to learn every single discipline needed to fully do this all from zero. This means I use breakout boards for sensors with readily implemented libraries and prototyping boards to contain all my electronics (rather than commerically avaliable flight computer boards) to delay having to learn low level programming and PCB design (both of which I hope to do in the future). <br>
 
-I also avoided looking at any open sourced software like Betaflight and Ardupilot as to not be influenced by choices they make and wasting time learning their codebases.
+I avoided looking at any open sourced software like Betaflight and Ardupilot as to not be influenced by choices they make and wasting time learning their codebases, so if any unconventional design choices exists, that may be why.
 
 ---
 
 ## Table of Content
-<span style="font-size:1.2em;">• <a href="#dynamic-model">Dynamic Model</a></span><br>
+<span style="font-size:1.3em;">• <a href="#dynamic-model">Dynamic Model</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#inertial-body-frame">Inertial & Body Frames</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#force-torque-generation">Force and Torque Generation</a></span><br>
     <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#aerodynamic-relationships">Aerodynamic Relationships</a></span><br>
@@ -37,11 +37,11 @@ I also avoided looking at any open sourced software like Betaflight and Ardupilo
     <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#control-allocation">Control Allocation</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#newton-quaterion-euler">Newton's Second Law, Quaternion Kinematics, and Euler's Rotation Equations</a></span><br>
 
-<span style="font-size:1.2em;">• <a href="#lqr-controller">LQR Controller</a></span><br>
+<span style="font-size:1.3em;">• <a href="#lqr-controller">LQR Controller</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#regulation-with-quaternions">Regulation with Quaternions</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#attitude-error-jacobian">Attitude Error / Jacobian</a></span><br>
 
-<span style="font-size:1.2em;">• <a href="#sensors">Sensors</a></span><br>
+<span style="font-size:1.3em;">• <a href="#sensors">Sensors</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#imu-model">IMU Model</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#mag-model">Magnetometer Model</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#gps-model">GPS Model</a></span><br>
@@ -49,7 +49,14 @@ I also avoided looking at any open sourced software like Betaflight and Ardupilo
     <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#ned-frame-conversions">NED Frame Conversions</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#alt-model">Altimeter Model</a></span><br>
 
-<span style="font-size:1.2em;">• <a href="#error-state-kalman-filter">Error State Kalman Filter</a></span><br>
+<span style="font-size:1.3em;">• <a href="#error-state-kalman-filter">Error State Kalman Filter</a></span><br>
+  <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="nominal-error-state">Nominal vs Error State</a></span><br>
+  <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="rror-state-dynamics">Error State Dynamics</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#alpha">Alpha</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#position-error">Position Error</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#velocity-error">Velocity Error</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#bias-errors">Bias Errors</a></span><br>
+
 
 <span style="font-size:1.2em;">• <a href="#simulation-results">Simulation Results</a></span><br>
 
@@ -61,13 +68,13 @@ I also avoided looking at any open sourced software like Betaflight and Ardupilo
 
 As with any control and estimation problem, the starting point must be a model describing how the states of the system will evolve over time due to any imparted forces / torques: <br>
 $$
-\dot{x} = f(x,u)
+\dot{x} = f(x,u) \tag{1}
 $$
 Where $x$ represents the state vector, and $u$ represents the control. <br>
 The state will be the translational position ($p$) and velocity ($v$), along with the quaternion ($q$) and body rates ($\omega$). <br>
-$$ x = \begin{bmatrix} p\\\ v \\\ q \\\ \omega\end{bmatrix} $$
+$$ x = \begin{bmatrix} p\\\ v \\\ q \\\ \omega\end{bmatrix} \tag{2}$$
 The control will the magnitude of the total thrust ($F_T$), along with the torques along the 3 body axis ($^B \tau_x, ^B\tau_y, ^B\tau_z$). More on this choice of control later. <br>
-$$ u = \begin{bmatrix} F_T\\\ ^B\tau_x \\\ ^B\tau_y \\\ ^B\tau_z\end{bmatrix} $$
+$$ u = \begin{bmatrix} F_T\\\ ^B\tau_x \\\ ^B\tau_y \\\ ^B\tau_z\end{bmatrix} \tag{3}$$
 
 
 <h3 id="inertial-body-frame">Inertial & Body Frames</h3>
@@ -89,16 +96,16 @@ This results in some conventions like gravity being positive (along the +Z / Dow
 
 <h4 id="aerodynamic-relationships">Aerodynamic Relationships</h4>
 Generally, thrust generated by each motor / propeller pair is described by the following relationship <sup id="cite-propdb-ref"><a href="https://m-selig.ae.illinois.edu/props/propDB.html" target="_blank">[1]</a></sup>:
-$$ F_{T,i} = C_T \rho D^4 n_i^2 $$
+$$ F_{T,i} = C_T \rho D^4 n_i^2 \tag{4}$$
 where $C_T$ is the thrust coefficient, $\rho$ is the air density, $D$ is the diameter of the propeller, and $n_i$ is the spin rate in revolutions per second.
 
 Additionally, each time the propeller accelerates, a torque must be applied to increase its angular momentum. By the conservation of angular momentum, the total angular momentum of the system must remain constant if there are no external torques acting on the system. This means that if the motor spins the propeller in one direction, the aircraft body will experience an equal and opposite torque to counteract it. This counteracting torque can be expressed as:
-$$ \tau_i = C_\tau \rho D^5 n_i^2 $$
+$$ \tau_i = C_\tau \rho D^5 n_i^2 \tag{5}$$
 where $C_\tau$ is the torque coefficient. <br>
 
 Higher fidelity simulations may model $C_T$ and $C_\tau$ as a function of the advance ratio and reynolds number, while $\rho$ as a function of the pressure ($P$) and temperature ($T$). However, without access to a wind tunnel, treating these values as constants works pretty well. This allows for the simplified relationships:
-$$ F_{T,i} = k_T n_i^2 $$
-$$ \tau_i = k_M n_i^2 $$
+$$ \begin{align} F_{T,i} &= k_T n_i^2  \\
+ \tau_i &= k_M n_i^2 \end{align} \tag{6}$$
 where $k_T$ is the thrust constant, and $k_M$ is the torque / moment constant.
 
 <h4 id="motor-conventions">Motor Conventions</h4>
@@ -161,7 +168,7 @@ n_2^2 \\
 n_3^2 \\
 n_4^2
 \end{bmatrix}
-}_{n^2} 
+}_{n^2}  \tag{7}
 $$
 
 where $M$ is the control allocation matrix. 
@@ -179,8 +186,8 @@ v \\
 R(q)^T\frac{^B\vec{F_T}}{m} u+ \vec{g}\\
 \frac{1}{2} \begin{bmatrix} -\omega\cdot\vec{q} \\ q_w\omega - \omega \times\vec{q} \end{bmatrix} \\
 J^{-1}*(-\omega \times J\omega + ^B\vec{\tau})
-\end{bmatrix}
-$$
+\end{bmatrix} \tag{8}
+$$ 
 
 where $^B\vec{F_T}$ represents the total thrust in the body frame ($^B[0; 0; F_T]$), R(q) is the rotation from the inertial frame to the body frame, $\vec{g}$ represents the gravity vector in the inertial frame ($^I[0; 0; g]$), $J$ is the moment of inertia matrix, and $^B\vec{\tau}$ represents the total torques around the body axis ($^B[\tau_x; \tau_y; \tau_z]$). 
 
@@ -212,7 +219,7 @@ where $n_x$ is the length of the state vector (13).
 
 The system is controllable if $C$ is full rank, which means $rank(C) = n_x = 13$, which is not the case. Instead, the rank of $C$ is 12 when linearized about a set point, meaning there is only 12 DOF for this system. The missing DOF comes from the unit-norm constraint on the quaternion. If this were a true regulation problem, you would want to drive all state to 0, which obviously cannot happen with the quaternion as it must maintain a magnitude of 1. 
 
-But if we just operate about the setpoint where the quaternion towards the identity quaternion, the scalar component would effectively be 1 and we can just regulate the vector part. Doing so would effectively shrink the DOF if this system by 1 and give us control over the remaining states, the only thing left is to mathemtically formalize this. 
+But if we operate about the setpoint where the quaternion towards the identity quaternion, the scalar component would effectively be 1 and we can just regulate the vector part. Doing so would effectively shrink the DOF if this system by 1 and give us control over the remaining states, the only thing left is to mathemtically formalize this. 
 
 The steps for doing will be shown here at a high level, but is explained in detail by this lecture from Prof. Manchester at CMU <sup id="cite-quatOpt-ref"><a href="https://www.youtube.com/watch?v=gSeRXxaC5CM" target="_blank">[2]</a></sup>:
 
@@ -221,17 +228,17 @@ The steps for doing will be shown here at a high level, but is explained in deta
 Instead of using the full quaternion, the controller will be regulating a small attitude error $\alpha$. There are multiple representations that can be used, but the one chosen will be the vector component of the quaternion error ($\delta q$)
 which is defined as follows:
 $$
-$q_{ref} = \delta q \otimes q \rightarrow \delta q = q_{ref} \otimes q$
+q_{ref} = \delta q \otimes q \rightarrow \delta q = q_{ref} \otimes q
 $$
 $$
 \alpha = \delta q_{xyz}
 $$
 
-Where $\delta q$ represents a tiny error in rotation between our current attitude and the desired one, and $alpha$ is simply the vector component of this. The operator $\otimes$ is the quaternion multiplication (Kronecker Product).
+Where $\delta q$ represents a tiny error in rotation between our current attitude and the desired one, and $\alpha$ is simply the vector component of this. The operator $\otimes$ is the quaternion multiplication (Kronecker Product).
 
 Using this definition, an attitude jacobian ($G(q)$) can be aquired that maps a small change in $\alpha$ to $\delta q$,linearized about the current attitude $q$. 
 $$
-G(q) = \begin{bmatrix} -q_x & -q_y & -q_z \\ q_w & q_z & -q_y \\ -q_z & q_w & q_z \\ q_y & -q_x & q_w \end{bmatrix}
+G(q) = \begin{bmatrix} -q_x & -q_y & -q_z \\ q_w & q_z & -q_y \\ -q_z & q_w & q_z \\ q_y & -q_x & q_w \end{bmatrix} \tag{9}
 $$  
 
 With this defined, the system matrices can be shrunk to achieve the desired impacts mentioned above:
@@ -265,13 +272,13 @@ The sensor suite will consist of an IMU for high frequency measurements of the a
 
 While there are many sources for the IMU, the main ones will be white noise and a random walk term to simulate bias growth (so ignoring any scale factor, non-orthogonality, $g / g^2$ sensitivity etc), resulting in the following models for the Accelerometer:
 $$
-^A\tilde{a}(t) = ^Aa_{A/I}(t) + ^Ab_a(t) - R_{I\rightarrow A}(t) ^I g + ^A\eta_a
+^A\tilde{a}(t) = ^Aa_{A/I}(t) + ^Ab_a(t) - R_{I\rightarrow A}(t) ^I g + ^A\eta_a \tag{10}
 $$
 where $^A\tilde{a}(t)$ is the measured acceleration of the IMU, $^Aa_{A/I}(t)$ is the true net acceleration of the IMU, $^Ab_a(t)$ is the time varying bias of the accelerometer, $R_{I\rightarrow A}(t) ^I g$ is the rotated inertial gravity, and $^A\eta_a$ is the white noise, all expressed in the accelerometer frame.
 
 And Gyro:
 $$
-^G\tilde{\omega}(t) = ^G\omega_{G/I}(t) + ^Gb_g(t) + ^G\eta_g 
+^G\tilde{\omega}(t) = ^G\omega_{G/I}(t) + ^Gb_g(t) + ^G\eta_g \tag{11}
 $$
 where $^G\tilde{\omega}(t)$ is the measured rotational rate of the IMU,$^G\omega_{G/I}(t)$ is the true rotational rate of the IMU with respect to the inertial frame, $^Gb_g(t)$ is the time varying bias of the gyro (accelerometer measures with respect to free fall), and $^G\eta_g$ is the white noise, all expressed in the gyro frame.
 
@@ -283,7 +290,7 @@ While the white noise parameter can readily be found on the datasheets, the RRW 
 
 A magnetometer measures the local magnetic field vector. If you point any of the axis directly along the magnetic field vector, only that axis would return a value, while the other two should be close to zero (with some noise). This results in the following model:
 $$
-^M\tilde{m} = R_{M\rightarrow I}(t) ^Im_{ref} + ^M\eta_m 
+^M\tilde{m} = R_{M\rightarrow I}(t) ^Im_{ref} + ^M\eta_m  \tag{12}
 $$
 where $^M\tilde{m}$ is the measured magnetic field vector, $R_{M\rightarrow I}(t) ^Im_{ref}$ is the rotated true magnetic field vector, and $^M\eta_m$ is some white noise term, all expressed in the Magnetometer frame.
 The white noise term can be found on the magnetometer data sheet.
@@ -301,7 +308,7 @@ $$
 (a/(\sqrt{1-e^2sin^2(\phi)}) + h)cos(\phi)cos(\theta) \\
 (a/(\sqrt{1-e^2sin^2(\phi)}) + h)cos(\phi)sin(\theta) \\
 (a(1-e^2)/(\sqrt{1-e^2sin^2(\phi)}) + h)sin(\phi)
-\end{bmatrix}
+\end{bmatrix} \tag{13}
 $$
 
 where $a$ and $e$ are the semi-major axis and eccentricity of the earth under the WSG84 model, and $\phi$, $\theta$, $h$ are the Latitude, Longitude, and altitude respectively.  
@@ -310,7 +317,7 @@ where $a$ and $e$ are the semi-major axis and eccentricity of the earth under th
 Note that before this can be converted into the inertial frame of choice, there must be a reference vector that initializes the origin of the inertial frame on the ECEF frame, such that the deltas between the measured ECEF, and the reference ECEF vector is the position and velocity relative to the origin of the NED frame. 
 
 $$
-^{ECEF} r_{NED} = ^{ECEF} r_{ref} - ^{ECEF} r_{meas}
+^{ECEF} r_{NED} = ^{ECEF} r_{ref} - ^{ECEF} r_{meas} \tag{14}
 $$
 
 From there, the rotation that describes the orientation of the ECEF frame to the local NED frame is required, which is dependent upon the reference LLA. This results in:
@@ -319,7 +326,7 @@ $$
 $$
 where $R_{ECEF\rightarrow NED}$ describes this rotation and is:
 $$
-R_{ECEF\rightarrow NED} = R_2(-\phi_{ref} - \frac{\pi}{2}) R_3(\theta_{ref}) 
+R_{ECEF\rightarrow NED} = R_2(-\phi_{ref} - \frac{\pi}{2}) R_3(\theta_{ref}) \tag{15}
 $$
 This reads as starting with the ECEF, rotate the coordinate around the Z axis by the reference longitude. This aligns the Y axis with the East Direction. Another rotation about the X axis by the quantity of the reference latitude minus 90 degrees will align the Z with the down axis, and X with the North. 
 
@@ -331,13 +338,13 @@ The datasheet typically gives the noise of the position in terms of a 50% CEP, w
 The altimeter works by measuring pressure, and comparing it to the local pressure in order to a height. Since there are no plans to fly this to extreme altitudes, the following exponential model is sufficent:
 
 $$
-P = P_0 exp(\frac{-gMh}{RT_0}) + \eta_p
+P = P_0 exp(\frac{-gMh}{RT_0}) + \eta_p\tag{16}
 $$
 where $P_0, T_0$ are the reference pressure and temperature, while $g, M, R$ are constants and are the gravity, mean molecular weight of air, and the ideal gas constant. $\eta_p$ represents the white noise added onto the pressure model.
 
 The height can computed from a pressure reading, which will be used to compute the "Down" component of the inertial position:
 $$
-^{NED} z = h_0 - h
+^{NED} z = h_0 - h\tag{17}
 $$
 
 where $^{NED} z$ is the z component of the position in the NED frame, and $h_0$ is the reference height at the start. 
@@ -347,6 +354,312 @@ The white noise 1-sigma is readily avliable in data sheets.
 
 
 <h2 id="error-state-kalman-filter">Error State Kalman Filter</h2>
+
+With all the sensors defined, the next step is the fusion of all the measurements, along with the dynamic model to obtain the best estimate of the state given the expected uncertainties. 
+The common option here is the standard Extended Kalman Filter, which is able to handle the non-linear dynamics of this system by linearizing about model about its current estimate. But as with the LQR controller, having the quaternion as part of the state with its unit-norm constraint causes some issues. Normally, during the update step when you obtain a meassurement, you additively update your state estimate:
+$$
+\hat{x}_{k}^+ = \hat{x}_k^- + K(z - H\hat{x}_k^-)
+$$
+However, doing so for the quaternion doesn't preserve the unit-norm constraint without manually normalizing after the update step, which maintains the constraint at the loss of some accuracy. <br>
+
+Luckily NASA figured out how to get around this by reformulating the filter with the addition of error states. I refer to this as the Error-State Kalman Filter but it may be better known as the Multiplicative Extended Kalman Filter (MEKF). 
+The main gist here is that between measurement updates, your estimate is incurring some amounts of error. This error is then rendered observable when you obtain a measurement and correct for it accordingly. On top being able to maintain the quaternion norm, error states are more likely to grow linearily between updates compared to the actual state, so the errors from mis-modling highly non-linear behaviors can be mitigated by keeping track of the error instead.
+
+For more of the theory and math, I often refer to the thesis by J. Sola which includes the fundamentals and alternative design choices<sup id="cite-sola-ref"><a href="https://arxiv.org/pdf/1711.02508" target="_blank">[5]</a></sup>. I also used this paper by J. Maley with applications to guided projectiles which I found to be more digestable with derivation of measurement models for the sensors in this project <sup id="cite-marley-ref"><a href="https://apps.dtic.mil/sti/tr/pdf/ADA588831.pdf" target="_blank">[6]</a></sup>. 
+
+An attempt at a high level summary will be provided below.
+
+<h3 id="nominal-error-state">Nominal vs Error State</h3>
+
+Within the filter, there will need to be a distinction between the nominal and error state. The nominal states are as follows:
+$$
+\hat{x} = \begin{bmatrix} p \\ v \\ q \\ \beta_{a} \\ \beta_{g} \\ \beta_{m} \end{bmatrix}
+$$
+where the states represents the position, velocity, quaternion, accelerometer bias, gyro bias, and magnetometer bias. 
+
+The error states are:
+$$
+\delta x = \begin{bmatrix}\delta p \\ \delta v \\ \alpha \\ \delta \beta_{a} \\ \delta \beta_{g} \\ \delta \beta_{m} \end{bmatrix} 
+$$
+
+where the errors are that of the nominal states above. 
+
+This part sees the re-introduction of $\alpha$ as a small error in the attitude, which is DIFFERENT from the definition in the LQR controller. While the definition in either one can be made to match, they were kept as seperate in order to be able to quickly verify the implementations symbolically with the sources they were aquired from. Additionally, it will be shown that the definition of $\alpha$ chosen here makes the math slightly cleaner, which can then be compared to the LQR and seen that the definition selected there also results in no additional factors in the calculations. 
+
+It should also be noted that the nominal state has a length of 19, while the error state has a length of 18. 
+
+<h3 id="error-state-dynamics">Error State Dynamics</h3>
+The full error state dynamics are as follows:
+
+$$
+\begin{align}
+\begin{bmatrix}
+\dot{\delta p} \\
+\dot{\delta v} \\
+\dot{\alpha}  \\
+\dot{\delta\beta_{a}}\\
+\dot{\delta \beta_{g}}\\
+\dot{\delta \beta_{m}}
+\end{bmatrix}
+&=
+\begin{bmatrix}
+0 & I_3 & 0 & 0 & 0 & 0 \\
+0 & 0 & -R(\hat{q})^T[(a_{meas} - \beta_a)\times]  & -R(\hat{q})^T & 0 & 0\\
+0 & 0 & -[\omega_{meas} - \beta_g] \times & 0 & -I_3 & 0 \\
+0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\\
+0 & 0 & 0 & 0 & 0 & 0\\
+\end{bmatrix}
+\begin{bmatrix}
+\delta p \\
+\delta v \\
+\alpha  \\
+\delta\beta_{a}\\
+\delta\beta_{g}\\
+\delta\beta_{m}\\
+\end{bmatrix}
++
+\begin{bmatrix}
+0 & 0 &0 & 0 & 0 \\
+-R(\hat{q})^T & 0 & 0 & 0 & 0 \\
+0 & -I_3 & 0 & 0 & 0\\
+0 & 0 & I_3 & 0  & 0\\
+0 & 0 & 0 & I_3  & 0\\
+0 & 0 & 0 & 0  & I_3\\
+\end{bmatrix}
+\begin{bmatrix}
+\eta_{a} \\
+\eta_{g}\\
+\eta_{\beta_a} \\
+\eta_{\beta_g}\\
+\eta_{\beta_m}\\
+\end{bmatrix} \\ \\
+\delta\dot{x}\hspace{6mm} &= \hspace{50mm} F \hspace{46mm} \delta x \hspace{5mm} +\hspace{25mm} G\hspace{30mm}w
+\end{align}
+$$
+
+
+<h4 id="alpha">Alpha</h4>
+The derivation steps here will be slightly different depending on how the error is defined, whether its a global or local error. In this case, it will be treated as a local error (Sola and Marley uses the global error), where the error quaternion represents:
+$$
+q_{I\rightarrow B} = \delta q_{B' \rightarrow B} \otimes \hat{q}_{I\rightarrow B'}  \tag{18}
+$$
+$$
+\delta q = q \otimes \hat{q}^{-1} \tag{19}
+$$
+where $q_{I\rightarrow B}$ is the TRUE attitude describing the body frame relative to the inertial, $\hat{q}_{I\rightarrow B'}$ represents the ESTIMATED attitude describing the estimated body frame relative to the inertial frame, and $\delta q_{B' \rightarrow B}$ is the extra error that if known, would perfectly rotate the estimated body frame onto the truth. The goal is to then obtain a model that describes the change in error state given our estimated state with no reference to the truth. 
+
+First, the derivative of the original expression is obtained by applying the chain rule:
+$$ 
+\dot{q} = \delta \dot{q} \otimes \hat{q} + \delta q \otimes \dot{\hat{q}} \tag{20}
+$$
+
+Then substituing in the quaternion derivative (which applies for both the estimated and truth):
+$$
+\dot{q} = \frac{1}{2} \begin{bmatrix} 0 \\ \omega \end{bmatrix} \otimes q \tag{21}
+$$
+where $\omega$ is the rate of rotation of the body frame relative to the inertial.
+
+We obtain:
+$$
+\frac{1}{2} \begin{bmatrix} 0 \\ \omega \end{bmatrix} \otimes q = \delta \dot{q} \otimes \hat{q} + \delta q \otimes \frac{1}{2} \begin{bmatrix} 0 \\ \hat{\omega} \end{bmatrix} \otimes \hat{q} \tag{22}
+$$
+Now, replacing the true quaternion in terms of the error and estimate:
+$$
+\frac{1}{2} \begin{bmatrix} 0 \\ \omega \end{bmatrix} \otimes \delta q \otimes \hat{q} = \delta \dot{q} \otimes \hat{q} + \delta q \otimes \frac{1}{2} \begin{bmatrix} 0 \\ \hat{\omega} \end{bmatrix} \otimes \hat{q} \tag{23}
+$$
+And getting rid of the common factor by right multiplying ($\otimes \hat{q}^-1$), and solving for $\delta \dot{q}$:
+$$
+\delta \dot{q}  =  \frac{1}{2} ( \begin{bmatrix} 0 \\ \omega \end{bmatrix} \otimes \delta q -\delta q \otimes\begin{bmatrix} 0 \\ \hat{\omega} \end{bmatrix}) \tag{24}
+$$
+The only reference to the truth remaining is the body rates, which can be substitued for:
+$$
+\omega = \hat{\omega} + \delta\omega  \tag{25}
+$$
+where $\hat{\omega}$ is the measured rate (so the bias and noise of the sensor is baked into this term), while $\delta\omega$ is a tiny error in the body rates (which will be defined below).
+Doing one final substitution:
+$$
+\begin{align}
+			\delta \dot{q}  &=  \frac{1}{2} ( \begin{bmatrix} 0 \\ \hat{\omega} +\delta \omega \end{bmatrix} \otimes \delta q -\delta q \otimes\begin{bmatrix} 0 \\ \hat{\omega} \end{bmatrix}) \\
+		& = \frac{1}{2} ( \begin{bmatrix} 0 \\ \hat{\omega}\end{bmatrix} \otimes \delta q -\delta q \otimes\begin{bmatrix} 0 \\ \hat{\omega} \end{bmatrix} + \begin{bmatrix} 0 \\ \delta{\omega}\end{bmatrix} \otimes \delta q)  
+	\end{align} \tag{26}
+$$
+And simpliying using the following relationships:
+$$
+	\begin{align}
+		\bar{q} \otimes q &= \begin{bmatrix}\bar{q}_w q_w - \bar{q}_{xyz}\cdot q_{xyz} \\q_w\bar{q}_{xyz} + \bar{q}_w q_{xyz} - \bar{q}_{xyz} \times q_{xyz}\end{bmatrix} \\
+		\delta q &= \begin{bmatrix}1 \\ \delta q_{xyz} \end{bmatrix}
+		\end{align}  \tag{27}
+$$
+where the first is simply the definition of the quaternion product, and the second represents the definition of a small quaternion error (scalar component is 1, vector components are close to 0).
+
+We end up getting:
+$$\begin{align}
+		\delta \dot{q} &= \frac{1}{2} ( \begin{bmatrix} -\hat{\omega}\cdot \delta q_{xyz} \\ \hat{\omega} - \hat{\omega} \times \delta q_{xyz}\end{bmatrix}  -\begin{bmatrix} -\hat{\omega}\cdot \delta q_{xyz}\\ \hat{\omega} - \delta q_{xyz}  \times  \hat{\omega}\end{bmatrix} + \begin{bmatrix} -\delta{\omega}\cdot \delta q_{xyz} \\ \delta{\omega} - \delta{\omega} \times \delta q_{xyz}\end{bmatrix})  \\
+		\delta \dot{q} &= \frac{1}{2} ( \begin{bmatrix}0 \\ -2 \hat{\omega} \times \delta q_{xyz}\end{bmatrix}+ \begin{bmatrix} -\delta{\omega}\cdot \delta q_{xyz} \\ \delta{\omega} - \delta{\omega} \times \delta q_{xyz}\end{bmatrix}) \\
+		&\approx  \begin{bmatrix}0 \\ - \hat{\omega} \times \delta q_{xyz}\end{bmatrix}+ \frac{1}{2}\begin{bmatrix} 0 \\ \delta{\omega}\end{bmatrix}
+	\end{align} \tag{28}
+$$
+which resulted from carrying out all the dot and cross products, and assuming that any $\delta$ terms are tiny, so their products are negligible. 
+
+Since the entire scalar component in that expression is 0, it can be ignored, showing that the error dynamics will only be dependent upon the vector component:
+$$
+		\begin{align}
+		\delta\dot{q}_w &= 0 \\
+		\delta\dot{q}_{xyz} &= -\hat{\omega} \times \delta q_{xyz} + \frac{1}{2}\delta \omega
+	\end{align} \tag{29}
+$$
+
+Now here is where the introduction of Alpha comes in:
+$$
+\alpha = 2\delta_{xyz} \tag{30}
+$$
+This was chosen such that when substituted back into the expression above, the coefficents cancels out and we just get:
+$$
+\dot{\alpha} =  -\hat{\omega} \times \alpha  + \delta \omega \tag{31}
+$$
+
+And to be more explicit, the gyro sensor model written in terms of the truth, estimated, and error states:
+$$
+\omega = \hat{\omega} - \delta \beta_g - \eta_g \tag{32}
+$$
+where $\delta \beta_g$ is a small error in the true bias, and $\eta_g$ is some white noise term.
+
+Defining $\hat{\omega} = \omega_{meas} - \hat{\beta}_g$ (best estimate of body rates is measured subtracted by the estimated bias), and $\delta \omega = - \delta \beta_g - \eta_g$ (bias term is negative since we subtracted the estimated bias which has some error, and the sign on the white noise is arbitrary), we get the final equation to be:
+
+$$
+\dot{\alpha} =  -(\omega_{meas} - \hat{\beta}_g) \times \alpha - \delta \beta_g - \eta \tag{33}
+$$
+
+
+<h4 id="position-error">Position Error</h4>
+The position error is defined as:
+$$
+\begin{align}
+r &= \hat{r} + \delta{r}\\
+\delta{r} &= r - \hat{r}
+\end{align}
+$$
+Taking the derivative:
+$$
+	\begin{align}
+	\delta\dot{r} &= \dot{r} - \dot{\hat{r}} \\
+	&= v - \hat{v} = \delta v
+	\end{align}
+$$
+Results in: 
+$$
+\delta\dot{r} = \delta v \tag{34}
+$$
+
+<h4 id="velocity-error">Velocity Error</h4>
+The velocity error is defined as:
+$$
+\begin{align}
+v &= \hat{v} + \delta v \ \\ 
+\delta{v} &= v-\hat{v}  \
+\end{align}
+$$
+Taking the derivative: 
+
+$$\delta{\dot{v}} = \dot{v}-\dot{\hat{v}} \tag{35}$$ 
+
+We know that :
+
+$$ 
+\dot{v} = R(q)^T f + g $$
+$$\dot{\hat{v}} = R(\hat{q})^T \hat{f} + g  \tag{36} $$
+
+which states that the acceleration in the inertial frame is the specific force (not accounting for gravity) in the body frame rotated into the inertial frame plus gravity.
+
+Substituting $(36)$ into $(35)$:
+
+$$\delta{\dot{v}} = R(q)^T f -R(\hat{q})^T \hat{f}  \tag{37}$$ 
+
+Introducing the following properties:
+$$
+\begin{align}
+R(q) &= (q_w^2 - |q_{xyz}|^2)I_3 - 2q_w[q_{xyz}\times] + 2q_{xyz}q_{xyz}^T \\
+ &= 
+	\begin{bmatrix}
+	1 - 2(q_y^2+q_z^2) & 2(q_xq_y+q_zq_w) & 2(q_xq_z-q_yq_w)\\
+	2(q_yq_x-q_zq_w) & 1-2(q_x^2+q_z^2) & 2(q_yq_z+q_xq_w) \\
+	2(q_zq_x+q_yq_w) & 2(q_zq_y-q_xq_w) & 1-2(q_x^2+q_y^2)
+\end{bmatrix}\\
+R(\bar{q} \otimes q) &= R(\bar{q})R(q) \\
+[\omega \times] &= \begin{bmatrix}0 & -\omega_3 & \omega_2 \\ \omega_3 & 0 & -\omega_1 \\ -\omega_2 & \omega_1 & 0 \end{bmatrix}
+\end{align}$$
+which are used to get the following approximation:
+$$
+R_{I\rightarrow B}(q)=R(\delta q \otimes \hat{q}) = R_{B^{\prime} \rightarrow B}(\delta q) R_{I\rightarrow B^{\prime}}(\hat{q})
+$$
+$$
+\begin{align}
+R_{B^{\prime} \rightarrow B}(\delta q) &\approx 
+\begin{bmatrix}
+1 & 2\delta q_z & -2\delta q_y \\
+-2\delta q_z & 1 & 2 \delta q_x \\
+2 \delta q_y & -2 \delta q_x & 1
+\end{bmatrix} \\
+&=(I_3 - 2[\delta q_{xyz}\times]) \\
+&=(I_3 -[\alpha \times])  \tag{38}
+\end{align} 
+$$
+$$
+\begin{align}
+R_{I\rightarrow B}(q) ^T &=  [R(\delta q)R(\hat{q})]^T \\ &= R(\hat{q})^T R(\delta q)^T
+\\ &\approx R(\hat{q})^T(I_3 + [\alpha \times]) \tag{39}
+\end{align} 
+$$
+
+$(37)$ can then be rewritten in terms of our error states:
+$$
+\delta v \approx R(\hat{q})^T(I_3 + [\alpha \times])f - R(\hat{q})^T \hat{f}  \tag{40}
+$$
+
+The only reference to the truth remaining is the specific force, which can be substitued for:
+$$
+f = \hat{f} + \delta f  \tag{41}
+$$
+$$
+\delta v \approx R(\hat{q})^T(I_3 + [\alpha \times]) (\hat{f} + \delta f)  - R(\hat{q})^T \hat{f} \tag{42}
+$$
+Distributing the first term, combining like terms, and assuming that $\alpha * \delta f \approx 0$:
+$$
+\delta v \approx R(\hat{q})^T([\alpha \times]) \hat{f}  + R(\hat{q})^T\delta f\tag{43}
+$$
+Since we want this to be linear with the error state, we need to flip the operations of the cross product:
+$$
+\delta v = -R(\hat{q})^T([\hat{f} \times]) \alpha  + R(\hat{q})^T\delta f\tag{43}
+$$
+
+And to be more explicit, the accelerometer sensor model written in terms of the truth, estimated, and error states:
+$$
+f = \hat{f} - \delta \beta_a - \eta_a \tag{44}
+$$
+where $\delta \beta_a$ is a small error in the true bias, and $\eta_a$ is some white noise term.
+
+Defining $\hat{f} = a_{meas} - \hat{\beta}_a$, and $\delta f = - \delta \beta_a - \eta_a$, we get the final equation to be:
+
+$$
+\delta v = -R(\hat{q})^T([ (a_{meas} - \beta_a) \times]) \alpha  + R(\hat{q})^T(-\delta \beta_a - \eta_a) \tag{45}
+$$
+
+
+
+
+<h4 id="bias-errors">Bias Errors</h4>
+All the biases are assumed to have some random growth that is not propagated as part of the dynamics, but instead treated as part of the process noise, such that the covariance can account for the uncertainties and update the errors when a measurement is processed. This means that the biases "dynamics" are described as:
+$$
+\begin{align} 
+\delta \dot{\beta}_a &= \eta_{\beta_a} \\
+\delta \dot{\beta}_g &= \eta_{\beta_m} \\
+\delta \dot{\beta}_m &= \eta_{\beta_m} 
+\end{align}
+$$
+where the respective $\eta$ is the random growth rate, which can be modeled as a random walk. 
+
+
 <h2 id="simulation-results">Simulation Results</h2>
 <h2 id="conclusion">Conclusion</h2>
 <hr>
@@ -397,6 +710,28 @@ The white noise 1-sigma is readily avliable in data sheets.
     https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
   </a>
 </li>
+<li id="cite-sola">
+  J. Sola, <i>“Quaternion kinematics for the error-state Kalman filter”</i>.
+  <span style="margin-left:0.5em; font-size:0.8em;">
+    <a href="#cite-sola-ref" title="Back to main text">↑</a>
+  </span><br>
+  <a href="https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates#Local_north,_east,_down_(NED)_coordinates" target="_blank">
+    https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
+  </a>
+</li>
+
+<li id="cite-marley">
+  J. Maley, <i>“Multiplicative Quaternion Extended Kalman Filtering for
+  Nonspinning Guided Projectiles”</i> , ARL Weapons and Materials Research Directorate
+  <span style="margin-left:0.5em; font-size:0.8em;">
+    <a href="#cite-marley-ref" title="Back to main text">↑</a>
+  </span><br>
+  <a href="https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates#Local_north,_east,_down_(NED)_coordinates" target="_blank">
+    https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
+  </a>
+</li>
+
+
 
   </ol>
 </section>

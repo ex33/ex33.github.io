@@ -24,7 +24,7 @@
 </div>
 
 
-I am current a <strong>GNC engineer at the Aerospace Corporation </strong> working on Rendezvous and Proximity Operation (RPO) related missions. 
+I am current a <strong>GNC engineer at the Aerospace Corporation </strong> working on Rendezvous and Proximity Operations (RPO) related missions. 
 
 I've officallty graduated from Cornell University in May 2024 with both <strong>Bachelors of Science (B.S.) in Mechanical Engineering and Masters in Engineering (M.Eng) in Aerospace Engineering</strong>, where I had a focus on <strong>Spacecraft Dynamics and Control</strong>. 
 
