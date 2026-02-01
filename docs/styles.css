@@ -1061,6 +1061,19 @@ html {
     color: #6b7280;
 }
 
+.tag-big {
+    font-size: 1rem;             /* bigger text */
+    font-weight: 600;            /* keep bold */
+    text-transform: uppercase;   /* same as other tags */
+    letter-spacing: 0.025em;     /* same as other tags */
+    padding: 0.5rem 1rem;        /* more padding for bigger look */
+    border-radius: 0.25rem;
+    display: inline-block;       /* allow wrapping and proper box sizing */
+    text-align: center;
+    white-space: normal;         /* allow text wrap if it’s long */
+}
+
+
 .tag:hover {
     transform: translateY(-1px);
     box-shadow: 0 2px 4px var(--color-shadow);
@@ -1289,4 +1302,36 @@ html {
 .references li {
   margin-bottom: 0.75rem;
   line-height: 1.5;
+}
+
+/* LaTeX-style algorithm block with line numbers */
+.latex-algorithm {
+  border: 1px solid #000;
+  padding: 0.75em 1em;
+  margin: 2em 0;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.1rem;
+  background: white;
+}
+
+.alg-title {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.alg-body {
+  line-height: 1.4;
+}
+
+.alg-line {
+  white-space: nowrap;
+}
+
+.indent {
+  padding-left: 2em;
+}
+
+.kw {
+  font-variant: small-caps;
+  font-weight: bold;
 }

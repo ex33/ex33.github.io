@@ -22,7 +22,7 @@ Here is a comprehensive list of my current and completed projects.
 ## Current Projects
 <div class="project-card">
     <div class="project-image">
-        <img src="assets/AgentBreederDiagramJPG.jpg" alt="AgentBreeder project">
+        <img src="/md/projects/quadcopterFromScratch/simulation_videos/progression/trajectory_video_full_sim.gif" alt="Quadcopter Part1">
     </div>
     <div class="project-content">
         <h3 class="project-title">
@@ -49,7 +49,7 @@ Here is a comprehensive list of my current and completed projects.
     </div>
     <div class="project-content">
         <h3 class="project-title">
-            <a href="/AgentBreeder" class="project-link">
+            <a href="/md/projects/quadcopterFromScratch/quadcopterPart2.html" class="project-link" target="_self">
                 Quadcopter from Scratch: Flight Software
             </a>
         </h3>
@@ -70,6 +70,30 @@ Here is a comprehensive list of my current and completed projects.
 
 
 ## Completed Projects
+<div class="project-card">
+    <div class="project-image">
+        <img src="assets/AgentBreederDiagramJPG.jpg" alt="AgentBreeder project">
+    </div>
+    <div class="project-content">
+        <h3 class="project-title">
+            <a href="/md/projects/quadcopterFromScratch/quadcopterPart0.html" class="project-link" target="_self">
+                Quadcopter from Scratch: Theory and Background
+            </a>
+        </h3>
+        <div class="project-venue">Personal Project</div>
+        <div class="project-description"> <strong>Part 0 of building a quadcopter from "scratch". </strong> <br> 
+        This isn't really a project, but attempts to contain a comprehensive background of all the theories and algorithms that is within the simulation and eventually the flight software. This is here in case
+        something seems weird within the code or something needs more explanation. Its also a resource for me to quickly refer back to when developing features, so warning if you're sensitive to grammatic errors.</div>
+        <div class="project-tags">
+            <span class="tag tag-control">LQR Control</span>
+            <span class="tag tag-estimation">Error State Kalman Filter</span>
+            <span class="tag tag-misc">Sensor Modeling</span>
+            <a href="https://github.com/ex33/drone_sim" class="tag tag-github">GITHUB</a>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="project-card">
     <div class="project-image">

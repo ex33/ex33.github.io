@@ -267,7 +267,9 @@ class MarkdownLoader {
             'selectedExperiences': 'md/selectedExperiences.md',
             'allProjects': 'md/allProjects.md',       
             'allExperiences': 'md/allExperiences.md',
-            'quadcopterPart1': 'quadcopterPart1.md' // relative to quadcopterPart1.html
+            'quadcopterPart0': 'quadcopterPart0.md', // relative to quadcopterPart0.html
+            'quadcopterPart1': 'quadcopterPart1.md', // relative to quadcopterPart1.html
+            'quadcopterPart2': 'quadcopterPart2.md' // relative to quadcopterPart2.html
         };
         this.init();
     }
