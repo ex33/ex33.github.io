@@ -2,13 +2,18 @@
 **Part 1 of building a quadcopter from "scratch"** <br>
 <a href="https://github.com/ex33/drone_sim" class="tag tag-big">GITHUB</a>
 ---
-<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<figure style="text-align: center;">
   <img
     src="simulation_videos/progression/trajectory_video_full_sim.gif"
-    alt="order-0-video3"
-    style="max-width: 100%; height: auto;"
-  />
-</div>
+    alt="order-0-video2"
+    style="width: 100%; max-width: 1000px;"
+  >
+  <figcaption style="font-size: 0.8em">
+    Full Closed Loop Simulation w/ Filter & LQR 
+  </figcaption>
+</figure>
+
+
 
 
 ## Summary
@@ -41,8 +46,19 @@ For more background material, see [Part 0](quadcopterPart0.html). This section c
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#order-2-simulation">Order 2 Simulation</a></span><br>
 
 <span style="font-size:1.3em;">• <a href="#utilizing-the-simulation">Utilizing the Simulation</a></span><br>
+  <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#hardware-selection">Hardware Selection</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#airframe">Airframe</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#battery">Battery</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#motors">Motors</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#propellers">Propellers</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#microcontroller">Microcontroller</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#sensors">Sensors</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#electronic-speed-controller">Electronic Speed Controller</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#flight-computer-board">Flight Computer Board</a></span><br>
   <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#system-parameters">System Parameters</a></span><br>
-
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#sensor-noise-parameters">Sensor Noise Parameters</a></span><br>
+    <span style="font-size:0.9em;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#vehicle-parameters">Vehicle Parameters</a></span><br>
+  <span style="font-size:1em;">&nbsp;&nbsp;&nbsp;&nbsp;↳ <a href="#tuning-guidelines">Tuning Guidelines</a></span><br>
 
 
 <span style="font-size:1.3em;">• <a href="#whats-next">Whats Next?</a></span><br>
@@ -290,13 +306,16 @@ Order 2: Closed loop validation (estimated states to LQR) + Motor Delay
 At the minimum, the simulation needs to be able to simulate the LQR controller and dynamical model. This would validate that the chosen controller will work under perfect state knowledge and the current best model of the system. 
 While that isn't particularly hard, here is a video from one of my first commits to my repo: (I don't think github supports videos so they are all converted into gifs)
 
-<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<figure style="text-align: center;">
   <img
     src="simulation_videos/progression/trajectory_video_8_3_25.gif"
-    alt="order-0-video1"
-    style="max-width: 100%; height: auto;"
-  />
-</div>
+    alt="order-0-video2"
+    style="width: 100%; max-width: 1000px;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 2: Over-0 Simulation Progress 1
+  </figcaption>
+</figure>
 
 At this point, I was commanding just a reference height, and every other states was 0 (quaternion was identity). So it looks like the controller is mostly working, until something happens at the very top and the quadcopter started to flip over. 
 
@@ -304,26 +323,34 @@ This made me think it could have been a numerical precision issue, where the gai
 
 While this did resolve this specific case, the error came back worse when I tried commanding a position in any North / East direction so that didn't seem to be the root cause:
 
-<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+<figure style="text-align: center;">
   <img
     src="simulation_videos/progression/trajectory_video_8_5_25.gif"
     alt="order-0-video2"
-    style="max-width: 100%; height: auto;"
-  />
-</div>
+    style="width: 100%; max-width: 1000px;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 3: Over-0 Simulation Progress 2
+  </figcaption>
+</figure>
 
 This confirmed to me there was a bug in the simulation. Luckily, only two components of this simulation existed so it didn't take long to find the issues (something that would have exponeitally increased the debugging time if I tried to build everything at once). 
 
 Given that I had a script to symbolically generated the LQR matrices, I was able to compare the code index by index to ensure there wasn't a typo. I also verified whether the gain matrices I was producing made sense (i.e. error in this component of the attitude should produce a torque about this axis), along with the A and B matrices. 
 
 From there, I was fairly confident that the error was within the dynamics, where I ended up finding an extra negative sign on the thrust (due to the way my inertial frame is defined, I was double counting the negative sign from another calculation), causing it to be applied in the opposite direction that the quadcopter was tilting in. 
-<div style="display: flex; justify-content: center; margin: 1.5rem 0;">
+
+
+<figure style="text-align: center;">
   <img
     src="simulation_videos/progression/trajectory_video_8_10_25.gif"
     alt="order-0-video3"
-    style="max-width: 100%; height: auto;"
-  />
-</div>
+    style="width: 100%; max-width: 1000px;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 4: Over-0 Simulation Progress 3
+  </figcaption>
+</figure>
 
 With this part of the simulation working, I felt confident adding on some noise and testing it under uncertainties in the state information. 
 
@@ -343,15 +370,197 @@ At this point, I am ready to combine everything from the simulation and pass in 
 
 I also used a reference that ramps up to the final target to avoid a large initial control, which can be seen that this works well. After reaching the final reference, the quadcopter is able to maintain the final position without signs of instability (some very slight wobble coming from the noise). This does not include any cutoff radius around the waypoints, which can also be adding extra jitter. This is usually done due to the noise on GPS measurements causing the position estimate to not always settle out, so achieving a position that is close enough often causes the position controller to turn off until the next waypoint.
 
-
-
-
 <h2 id="utilizing-the-simulation">Utilizing the Simulation</h2>
+So far, this simlation was used to validate the algorithms before quickly moving onto the FSW. This includes using the best estimate of the system parameters and tuning the filters accordingly such that closed loop performance is achieved as desired. This section will briefly go over how I did that.
+
+<h3 id="component-selection">Hardware Selection</h3>
+Taking a step away from the simulation, at a minimum, all the components needed to be selected in order to know what needs to be simulated and how. This included things like the airframe, motors and propellers, ESCs, battery, and sensors / microcontroller. 
+
+At the size and hobby level, most of these items will perform about the same given the price points I was looking at.
+
+Below are just a couple items I thought were worth mentioning:
+
+<h4 id="airframe">Airframe</h4>
+The airframe selected is a 5-inch X shaped frame, which is a moderate size for this project as it isn't large enough that I'd be concern it would do much damage indoors, but also not small enough that it becomes overly reactive. The X shaped frame also means its fully symmetric in terms of moment arms to the pitch and roll axes, and the 5-inch represents diameter of the recommended propellers.
+
+<h4 id="battery">Battery</h4>
+The battery selected was a 6S Li-Po composition, the 6S representing 6 4.2V cell connected in series to provide a max NOMINAL voltage of 22.2V (so typically batteries shows the 22.2V rather than the actual 25.2V). The cost of higher number of cells is mostly mass (due to battery itself weighing more and requiring higher rated components), but you end up getting longer flight times and generally less resistive losses (since $P_{loss} = I^2R$, and the current decreases for higher voltage). I ended up opting for a 6S to maxmimize flight times when testing outdoors. 
+
+<h4 id="motors">Motors</h4>
+Brushless motors are typically parameterized by the rated KV, which determines how much RPM per volt the motor can output. I ended up with a 1800KV motor given that I selected a higher cell number, I didn't need a higher KV motor. Selecting a KV thats too high for the battery while can allow for higher spin rates, but then it'll request more currents to meet the demanded torque output, causing potential issues for the electronics and also loss of any benefits from the previous point. 
+
+<h4 id="propellers">Propellers</h4>
+The propellers were selected to be 5x4x3, so they were 5 inches in diameter, 3 bladed, with a 4 inch pitch. The 5 inches were determined by the airframe selected. The pitch represents how angled the propellers are, which a higher pitch representing a more aggressive drone (at the cost of more load), while a smaller value has better efficency and is smoother. The number of blades has about the same relationship, where more blades represents more thrust while less blades results in less thrust. Again, there isn't too much options here, and a pretty standard configuration is a 5x4x3, so that was selected. 
+
+<h4 id="microcontroller">Microcontroller</h4>
+The microcontroller was selected to be the Teensy 4.1. due to its extensive number of I/O pins, high processing speeds and memory, and its processor (ARM Cortex-M) is used in other commerical Flight controllers (Betaflight / PX4). I had considered using the ESP32 due to its Wifi modules for downlinking real time telementry, but I figured I should use a dedicated ratio module in the future instead (the Teensy beats out the ESP32 on the other fronts mentioned).
+
+<h4 id="sensors">Sensors</h4>
+All the sensors were breakout boards from Adafruit. The tradeoff here was the extra unused pins and connectors, resulting slightly more mass and more importantly, volume. However, these boards came with libraries that significantly reduced the development and debugging time. I was confident that the sensors will return the expected measurements, and all I needed was the proper interfacing to extract out the measurements, and provide it to my filter. This in itself was extremely valuable as I could proceed with the rest of my FSW development in a modular fashion, and simply replace the components of the sensors with customized software once I get to the point of developing my own PCB. 
+Had this been a system with stringent performance requirements, I'd put a lot more thought into the hardware selections. 
+
+<h4 id="battery">Electronic Speed Controller</h4>
+The ESCs were from hobby wing, where there was only really one option that would be rated up to the 6S battery. Admittedly, the choice here was mostly due to familiarity with this component in the past, and knowing that it was able to handle much higher loads than this quadcopter gave me peace of mind. It also comes with easy calibration instructions for compatability to the PWM signal the Teesny 4.1 will be sending. 
+
+<h4 id="power-distribution-board">Power Distribution Board</h4>
+Lastly, I had to select a power distribution board (PDB) to connect the batteries to the rest of my electronics. Surprisingly, there weren't a lot of options for a cheap and readily avaliable 6S compatable power distribution board online for quadcopters. Many of them were just shy of the rating at 4S. I did end up finding one from Matek systems, which is seemingly discontinued. So if I burn through all my spares, this may eventually force me to go down to a 4S battery. 
+
+<h4 id="flight-computer-board">Flight Computer Board</h4>
+Given all the different board selection, after testing on a breadboard, I had to move them all onto a prototyping board that is more compact to fit onto the drone. 
+
+Below is a overview of the layout:
+
+<figure style="text-align: center;">
+  <img
+    src="images/FlightComputerLayout.png"
+    alt="order-0-video3"
+    style="width: 100%; max-width: 1000px;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 5: Flight Computer Board layout
+  </figcaption>
+</figure>
+
+I soldered female header pins onto the boards such that only the pins I needed from each board would make contact. This also allowed me to swap out the components in case something went wrong rather than needing to un-solder the entire thing and provided more space route each wire. 
+
+I did not pay any particular focus on keeping the wire lengths about the same as one would do for PCB designs. My main goal was to just get everything fitting onto this board as compactly as possible, which meant there are probably countless best practices from an eletronics standpoint that I ended up ignoring. I hope to research and remedy the majority of them once the PCB is customized, but for now this was good enough to run and test my FSW.
+
 
 <h3 id="system-parameters">System Parameters</h3>
-What are the things I need from my actual quadcopter / system, and how did i aquire them?
+Going back to the simulation, with the components selected and system built, each of the parameters into the simulation now needs to be defined such that it accurately reflects the expected performances. 
 
-<h3 id="tuning-guidelines">Tuning Guidelines</h3>
+<h4 id="sensor-noise-parameters">Sensor Noise Parameters</h4>
+The majority of the sensors are just parameterized by a normally distributed white noise, which can be found on the datasheets. This included the GPS, Altimeter, Magnetometer:
+
+• $\mathbf{\sigma_{GPS} = 3 m}$  <br>
+• $\mathbf{\sigma_{Mag} = 0.3 \mu T}$  <br>
+• $\mathbf{\sigma_{Alt} = 2 Pa}$  <br>
+
+The white noise for the IMU is also provided, but in terms of a noise spectral density. The $\sigma$ values are dependent upon the sampling frequency, which at 100Hz, comes out to:
+
+• $\mathbf{\sigma_{Acc} = 0.028 \frac{m}{s^2}}$  <br>
+• $\mathbf{\sigma_{Gyro} = 0.0031 \frac{rad}{s}}$  <br>
+
+The Rate-Random Walks parameters were not provided, but an Allan Variance Curve can be generated from a long period of data collection to obtain this. [Placeholder, will come back and add]
+
+<h4 id="sensor-noise-parameters">Vehicle Parameters</h4>
+While in-accuracies in the sensor noise parameters are limited to the filter (and thus can be counter-acted by on-board tuning), the vehicle parameters themselves are slighly more important in getting a representative simulation and testing out the stability of the controller. 
+
+These included the following:
+
+• Moment of Inertia Matrix ($\mathbf{J}$)<br>
+• Moment Arm ($\mathbf{L}$)<br>
+• Mass ($\mathbf{m}$)<br>
+• Thrust and Torque Constants ($\mathbf{k_T}$ & $\mathbf{k_M}$)<br>
+
+
+The MOI ($\mathbf{J}$) and moment arm ($\mathbf{L}$) were obtained from the CAD model, while the mass ($\mathbf{m}$) was obtained by simply weighing the system. 
+
+The Thrust Constant ($\mathbf{k_T}$) was obtained by putting on the propellers upside down, and using a hand-held tachometer, measuring the rotation of the motor for a given PWM command, and recording the resulting weight change on a scale. This was then plotted and a line of best fit was obtained, where the linear slope describing the square of the spin-rate versus thrust is the Thrust Constant:
+
+<figure style="text-align: center;">
+  <img
+    src="images/ThrustConstantPlot.png"
+    alt="thrust-constant-plot"
+    style="width: 75%; max-width: 750;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 6: Thrust Constant Plot
+  </figcaption>
+</figure>
+
+The Torque Constant wasn't easily obtainable given the current resources I had, so I opted to obtain this value online. This should be okay as this value only is for the yaw control, which doesn't really matter as much for stability as the thrust constant.
+
+UIUC keeps a data base of the performances of propellers, which I used to find about 3 propellers that were approximately 5 x 4 x 3 (some may have slightly longer pitch), but unfortunately they were all of different airfoil shapes. The database provides the thrust and torque coefficents under static conditions (no free stream velocity), which when combined with the propeller specifications, returned the Thrust / Torque Constants. 
+
+While I just needed the torque constant, I also found that the measured Thrust constant was within the expected range of values, which reassured me that this would give me an appropriate guess at the Torque constant and somewhat validated the value I obtained experimentally.  
+
+The final values are as follows:
+
+• $\mathbf{J} = \begin{bmatrix}0.003 & 2.19e-6 & 0 \\ 2.19e-6 & 0.004 & 2.993e-6 \\ 0 & 2.993e-6 & 0.005  \end{bmatrix} \frac{kg}{m^2}$<br>
+• $\mathbf{L} = 0.08 m$<br>
+• $\mathbf{m} = 0.83 kg$<br>
+• $\mathbf{k_T} = 6.583e-5 \frac{Ns^2}{rev^2}$ <br>
+• $\mathbf{k_M} = 7.51e-7 \frac{Nm*s^2}{rev^2}$ <br>
+
+
+<h2 id="tuning-guidelines">Tuning Guidelines</h2>
+With the simulation parameters defined and somewhat within the realms of reality to the actual system, the Controller and Filter can be tuned.
+
+The controller was first tuned according to Bryson's Rule, which is helpful when the states or control vector have various magnitudes and units. It requires identifiying the max allowable state and control error from the references, then using that to scale the diagonals of the Q and R matrices such that all the error coming in are weighted to about the same magnitude:
+$$
+Q_{ii} = \frac{1}{\Delta x_{i,max}^2}
+$$
+$$
+R_{jj} = \frac{1}{\Delta u_{jj,max}^2}
+$$
+where the cost function is: 
+$$J = \int{(\Delta x^TQ\Delta x + \Delta u^TR\Delta u)}dt$$
+
+While this is good at a starting point and often gives decent performance, the controller was then further tuned to achieve the following requirements for a STEP input in the position: 
+
+• Stable Response in States <br>
+• No overshoot in Position <br>
+• Settling Time ~10s <br>
+• Motor speed under limits (assumed ~70% of max spin rates) <br>
+
+Below is the results with the controller ingesting truth states (no filtering / sensors):
+<figure style="text-align: center;">
+  <img
+    src="images/StepInput.png"
+    alt="step-input-plot"
+    style="width: 75%; max-width: 750;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 7: Step Response
+  </figcaption>
+</figure>
+While the plot only shows the position states, it can be visually seen that these are stable. By the way the system is set up, this can only be achieved if all the other states are stable in their responses in maintaining 0 or the identity quaternion (so requirement 1 is satisfied). 
+
+Visually, there is no overshoot in the position here, and the system achieves the reference position in about 10 seconds, so requirement 2 and 3 are satisfied.
+
+Lastly, while there is a sharp initial jump in the requested spin rates of the motors, they are still below the set motor limits. 
+
+But despite this, that initial jump isn't desirable. If the commanded reference is big enough, the initial response will surpass the motor limits. This is why the references are often ramped up, such that at a given point in the trajectory, the error to the reference state should be tiny as to not cause this.
+
+Below demonstrates this effect with a simple linear ramp:
+<figure style="text-align: center;">
+  <img
+    src="images/RampInput.png"
+    alt="step-input-plot"
+    style="width: 75%; max-width: 750;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 8: Ramp Response
+  </figcaption>
+</figure>
+
+This was able to remedy the initial spike at the cost of no longer meeting the settling time requirement. While this could be tuned such that the controller is slightly more aggressive, the requirements for the step inputs still holds, so no further tuning is required. 
+
+After this, comes the tuning of the filter. There is less of a technique here aside from starting off with a reasonable guess at the initial covariance, and using the datasheet specifications for the process and measurement noises. Note for this filter, the process noise are largely due to the IMU noise since those measurements are used to propagate the state forward, while the biases are dependent upon the RRW values. 
+
+From there, the initial covariance and process noise can be tuned slightly. While you can get some desired improvements from tuning the measurement noise, often times there are more robust ways to do so without deviating from the datasheet values. 
+
+The tuning was also done by running the controller with truth data, while checking the associated filter plots to ensure that the covariance matrix properly bounds the state errors, and that the NIS and NEES values are as expected (should average out to the respective DOF for the measurements / state vector). If this was to be proven more rigiously, I would do a Monte-Carlo, but since there will be on-board tuning anyways, I decided to not spend too much time on that.
+
+After the filter was seemingly performing well enough, I then the controller ingesting the estimated state, fully closing the loop:
+
+<figure style="text-align: center;">
+  <img
+    src="images/FilterRampInput.png"
+    alt="step-input-plot"
+    style="width: 75%; max-width: 750;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 9: Ramp Response with Estimated States
+  </figcaption>
+</figure>
+
+From this, it can be seen that the states are pretty much still stable. 
+
+There is now some error between the reference and true North and East positions caused by estimation error, but that is to be expected. The only way to update those two states comes from the GPS, which has a 1-$\sigma$ of about 3 meters. And normally, once the drone is within some distance of the waypoint, it would no longer have the position error contribute to the control and can just maintain a stable attitude, which should be known to a much more precise degree. 
+
+With this, the simulation component is largely completed as a minimum viable product, and the FSW can now be written and compared.
 
 <h2 id="whats-next">Whats Next?</h2>
 
