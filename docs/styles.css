@@ -19,7 +19,7 @@ html {
     --color-accent: #af67ff;
     --color-accent-2: oklch(18.15% 0 0);
     --color-quote: #af67ff;
-    --color-border: #e5e7eb;
+    --color-border: #838588;
     --color-card-bg: rgba(255, 255, 255, 0.8);
     --color-shadow: rgba(0, 0, 0, 0.1);
 }
@@ -69,7 +69,7 @@ body {
 .items-center { align-items: center; }
 .justify-center { justify-content: center; }
 .min-h-screen { min-height: 100vh; }
-.max-w-3xl { max-width: 57.6rem; }
+.max-w-3xl { max-width: 70rem; } /* Orignially was 57.6*/
 .px-4 { padding-left: 1rem; padding-right: 1rem; }
 .px-8 { padding-left: 2rem; padding-right: 2rem; }
 .pt-16 { padding-top: 4rem; }
@@ -192,7 +192,7 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    max-width: 57.6rem; /* Same as max-w-3xl */
+    max-width: 70rem; /* Same as max-w-3xl */  /* Orignially was 57.6*/
     width: 100%;
     background-color: color-mix(in srgb, var(--color-global-bg) 95%, transparent);
     backdrop-filter: blur(12px);
@@ -202,6 +202,14 @@ body {
     padding: 1rem 1rem 0.5rem 1rem; /* Match main content px-4 */
 }
 
+
+.page-container {
+    max-width: 72rem; /* ~ max-w-5xl */
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
 
 
 /* Header grid layout */
@@ -919,6 +927,7 @@ html {
     border: 1px solid var(--color-border);
     border-radius: 0.75rem;
     padding: 1.5rem;
+    align-items: center; /* ← vertical centering */
     margin-bottom: 2rem;
     backdrop-filter: blur(8px);
     transition: opacity 0.2s ease;
@@ -932,8 +941,8 @@ html {
 
 .project-image {
     flex-shrink: 0;
-    width: 120px;
-    height: 90px;
+    width: 240px;
+    height: 180px;
     border-radius: 0.5rem;
     overflow: hidden;
     background-color: var(--color-border);
@@ -1109,13 +1118,27 @@ html {
 /* ============================= */
 /* Resume Timeline Component     */
 /* ============================= */
+/* Wrap description and logo in a flex row */
+.timeline-content-wrapper {
+    display: flex;
+    align-items: center; /* vertical center */
+    gap: 1rem;                /* space between description and logo */
+}
+
+/* Logo on the right */
+.timeline-logo-right {
+    width: 150px;   /* adjust size */
+    height: 150px;
+    object-fit: contain;
+    flex-shrink: 0; /* prevent shrinking */
+}
+
+/* Timeline itself */
 .timeline {
     position: relative;
     margin: 2.5rem 0 1rem 0;
-    /* space reserved for the timeline gutter (line + dot area) */
+    padding-left: var(--gutter); /* keep existing gutter */
     --gutter: 2.75rem;
-    padding-left: var(--gutter);
-    /* alignment vars */
     --dot-size: 0.85rem;
     --line-x: 1.25rem;
     --line-w: 2px;
@@ -1306,13 +1329,16 @@ html {
 
 /* LaTeX-style algorithm block with line numbers */
 .latex-algorithm {
-  border: 1px solid #000;
+  border: 1px solid var(--color-border);
   padding: 0.75em 1em;
   margin: 2em 0;
   font-family: "Times New Roman", Times, serif;
   font-size: 1.1rem;
-  background: white;
+  background-color: var(--color-card-bg);
+  color: var(--color-global-text);
+  box-shadow: 0 1px 3px var(--color-shadow);
 }
+
 
 .alg-title {
   font-weight: bold;
