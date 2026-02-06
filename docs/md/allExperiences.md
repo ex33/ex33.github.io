@@ -53,6 +53,29 @@
   </div>
   </div>
 
+<!-- MAE 4060 TA -->
+  <div class="timeline-item">
+    <span class="timeline-dot"></span>
+  <div class="timeline-header">
+    <span class="timeline-org">Cornell University </span>
+    <span class="timeline-dates">May 2023 - Aug 2023</span>
+  </div>
+
+  <div class="timeline-subtitle">
+    <span class="timeline-role">MAE 4060/5065 Teaching Assistant</span>
+    <span class="timeline-meta">Ithaca, NY</span>
+  </div>
+    <div class="timeline-content-wrapper">
+    <div class="timeline-desc">
+      <p>• TA for Intro to Orbital Mechanics. </p>
+      <p>• Topics include Keplerian elements, coordinate systems, orbital maneuver, common perturbations, rocket system, attitude control technoloy. </p>
+      <p>• Held office hours, answered discussion board questions, grading of homeworks and exams. </p>
+    </div>
+    <img src="/md/logos/cornell_logo.png" class="timeline-logo-right" alt="cornell4060">
+  </div>
+  </div>
+
+
 <!-- Millennium Space Systems -->
   <div class="timeline-item">
     <span class="timeline-dot"></span>
@@ -72,28 +95,6 @@
       <p>• Worked with avionics engineers and harness techs to integrate components fully, and designed mass models of spacecraft components/assemblies for vibrational analysis.</p>
     </div>
     <img src="/md/logos/millennium_logo.png" class="timeline-logo-right" alt="MSS">
-  </div>
-  </div>
-
-<!-- Xallent -->
-  <div class="timeline-item">
-    <span class="timeline-dot"></span>
-  <div class="timeline-header">
-    <span class="timeline-org">Xallent INC </span>
-    <span class="timeline-dates">May 2022 - Aug 2022</span>
-  </div>
-
-  <div class="timeline-subtitle">
-    <span class="timeline-role">Mechanical Engineering Intern</span>
-    <span class="timeline-meta">Ithaca, NY</span>
-  </div>
-    <div class="timeline-content-wrapper">
-    <div class="timeline-desc">
-      <p>• Developed CAD models of the company's many measurement devices for Micro-electromechanical systems (MEMs)</p>
-      <p>• Simulated testing probe in COMSOL, modeling as parallel capacitor plates under deflection to validatea circuit made by a collegue</p>
-      <p>• Designed and protoyped multiple components for the testing probe and objective lengs of the instruments, including a vacuum chuck, stopper part, and cover.</p>
-    </div>
-    <img src="/md/logos/xallent_logo.png" class="timeline-logo-right" alt="MSS">
   </div>
   </div>
 
@@ -143,6 +144,52 @@
       <p>• Designed and manufactured carbon fiber nosecone to redirect oncoming airflow towards the undertray to maximize downforc.</p>
     </div>
     <img src="/md/logos/fsae_logo.png" class="timeline-logo-right" alt="MSS">
+  </div>
+  </div>
+
+<!-- ENGRD 2210 TA -->
+  <div class="timeline-item">
+    <span class="timeline-dot"></span>
+  <div class="timeline-header">
+    <span class="timeline-org">Cornell University </span>
+    <span class="timeline-dates">Aug 2022 - Dec 2022</span>
+  </div>
+
+  <div class="timeline-subtitle">
+    <span class="timeline-role">ENGRD 2210 Teaching Assistant</span>
+    <span class="timeline-meta">Ithaca, NY</span>
+  </div>
+    <div class="timeline-content-wrapper">
+    <div class="timeline-desc">
+      <p>• TA for Intro to Thermodynamics. </p>
+      <p>• Topics included the first / second laws of thermodynamics, energy and entropy balance, and applicatinos to vapor and gas power systems, regrigeration, and heat pumps. </p>
+      <p>• Held office hours, graded homeworks, lead discussion sections. </p>
+    </div>
+    <img src="/md/logos/cornell_logo.png" class="timeline-logo-right" alt=cornell2210">
+  </div>
+  </div>
+
+
+
+<!-- Xallent -->
+  <div class="timeline-item">
+    <span class="timeline-dot"></span>
+  <div class="timeline-header">
+    <span class="timeline-org">Xallent INC </span>
+    <span class="timeline-dates">May 2022 - Aug 2022</span>
+  </div>
+
+  <div class="timeline-subtitle">
+    <span class="timeline-role">Mechanical Engineering Intern</span>
+    <span class="timeline-meta">Ithaca, NY</span>
+  </div>
+    <div class="timeline-content-wrapper">
+    <div class="timeline-desc">
+      <p>• Developed CAD models of the company's many measurement devices for Micro-electromechanical systems (MEMs)</p>
+      <p>• Simulated testing probe in COMSOL, modeling as parallel capacitor plates under deflection to validatea circuit made by a collegue</p>
+      <p>• Designed and protoyped multiple components for the testing probe and objective lengs of the instruments, including a vacuum chuck, stopper part, and cover.</p>
+    </div>
+    <img src="/md/logos/xallent_logo.png" class="timeline-logo-right" alt="MSS">
   </div>
   </div>
 

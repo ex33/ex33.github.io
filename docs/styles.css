@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Space+Grotesk:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+
 /* Reset and base styles */
 body, body *:not(.MathJax) {
     box-sizing: border-box;
@@ -39,7 +42,7 @@ html {
 
 /* Base typography */
 body {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-family: 'Space Grotesk', sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -495,6 +498,14 @@ body {
 .about-header .title {
     margin-top: 0;
     margin-bottom: 0.5rem;
+}
+
+.about-section {
+    font-size: 1.15rem;
+}
+
+.about-coursework {
+    font-size: 0.95em;
 }
 
 @media (max-width: 640px) {
@@ -996,11 +1007,6 @@ html {
     width: fit-content;
 }
 
-.project-description {
-    font-size: 0.875rem;
-    color: var(--color-global-text);
-    opacity: 0.8;
-}
 
 .project-year {
     font-size: 0.875rem;
@@ -1010,7 +1016,7 @@ html {
 }
 
 .project-description {
-    font-size: 0.875rem;
+    font-size: 0.95rem;
     line-height: 1.5;
     color: var(--color-global-text);
     opacity: 0.9;
@@ -1195,7 +1201,7 @@ html {
     font-size: 1.15rem; /* same as header */
     font-style: normal;  /* remove italics */
     font-weight: 700;    /* match org weight */
-    word-spacing: -0.5rem;  /* reduce space between words */
+    word-spacing: 0.25rem;  /* reduce space between words */
     color: color-mix(in srgb, var(--color-accent-2) 65%, transparent);
 }
 
@@ -1223,7 +1229,7 @@ html {
 /* Timeline Description - Details */
 .timeline-desc {
     margin-top: 0.25rem;
-    font-size: 0.9rem;
+    font-size: 1rem;
     line-height: 1.4;
     color: var(--color-global-text);
 
@@ -1331,18 +1337,19 @@ html {
 .latex-algorithm {
   border: 1px solid var(--color-border);
   padding: 0.75em 1em;
-  margin: 2em 0;
-  font-family: "Times New Roman", Times, serif;
-  font-size: 1.1rem;
+  width: min(90vw, 800px);
+  margin: 2em auto;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(0.8rem, 1vw, 0.95rem);
   background-color: var(--color-card-bg);
   color: var(--color-global-text);
   box-shadow: 0 1px 3px var(--color-shadow);
 }
 
-
 .alg-title {
   font-weight: bold;
   margin-bottom: 0.5em;
+  font-size: 0.95rem;
 }
 
 .alg-body {
@@ -1350,7 +1357,7 @@ html {
 }
 
 .alg-line {
-  white-space: nowrap;
+  word-break: break-word;
 }
 
 .indent {
@@ -1376,4 +1383,8 @@ html {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+h1, h2, h3, h4, h5, h6, .title {
+    font-family: 'Space Grotesk', sans-serif;
 }

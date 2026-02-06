@@ -158,8 +158,7 @@ The main purpose of this is to act as an entry function to access fmincon.m, whi
 
   <div class="alg-body">
     <div class="alg-line">
-      <span class="kw">Input:</span> Initial Decision Variables ($\mathbf{x_0}$), # Segments ($\mathbf{N}$), # Legs ($\mathbf{L}$), Gravitational Parameter ($\pmb{\mu}$), Gravity ($\mathbf{g_0}$), Initial Mass ($\mathbf{m_0}$), <br>
-      Specific Impulse ($\mathbf{isp}$), Max Thrust ($\mathbf{T_max}$), List of Planets ($\mathbf{Planets}$), Scaling Factors ($\mathbf{scales}$) 
+      <span class="kw">Input:</span> Initial Decision Variables ($\mathbf{x_0}$), # Segments ($\mathbf{N}$), # Legs ($\mathbf{L}$), Gravitational Parameter ($\pmb{\mu}$), Gravity ($\mathbf{g_0}$), Initial Mass ($\mathbf{m_0}$), Specific Impulse ($\mathbf{isp}$), Max Thrust ($\mathbf{T_max}$), List of Planets ($\mathbf{Planets}$), Scaling Factors ($\mathbf{scales}$) 
     </div>
 
     <div class="alg-line indent">
@@ -211,7 +210,7 @@ As the name suggests, this is where I put in my cost function for fmincon.m to e
 
   <div class="alg-body">
     <div class="alg-line">
-      <span class="kw">Input:</span> Initial Decision Variables ($\mathbf{x_0}$), # Segments ($\mathbf{N}$), # Legs ($\mathbf{L}$), Gravitational Parameter ($\pmb{\mu}$), Gravity ($\mathbf{g_0}$), Initial Mass ($\mathbf{m_0}$), <br>
+      <span class="kw">Input:</span> Initial Decision Variables ($\mathbf{x_0}$), # Segments ($\mathbf{N}$), # Legs ($\mathbf{L}$), Gravitational Parameter ($\pmb{\mu}$), Gravity ($\mathbf{g_0}$), Initial Mass ($\mathbf{m_0}$),
       Specific Impulse ($\mathbf{isp}$), Max Thrust ($\mathbf{T_max}$), List of Planets ($\mathbf{Planets}$), Scaling Factors ($\mathbf{scales}$) 
     </div>
 
@@ -251,7 +250,7 @@ This is where all the equality and inequality constraints are defined for fminco
 
   <div class="alg-body">
     <div class="alg-line">
-      <span class="kw">Input:</span> Initial Decision Variables ($\mathbf{x_0}$), # Segments ($\mathbf{N}$), # Legs ($\mathbf{L}$), Gravitational Parameter ($\pmb{\mu}$), Gravity ($\mathbf{g_0}$), Initial Mass ($\mathbf{m_0}$), <br>
+      <span class="kw">Input:</span> Initial Decision Variables ($\mathbf{x_0}$), # Segments ($\mathbf{N}$), # Legs ($\mathbf{L}$), Gravitational Parameter ($\pmb{\mu}$), Gravity ($\mathbf{g_0}$), Initial Mass ($\mathbf{m_0}$), 
       Specific Impulse ($\mathbf{isp}$), Max Thrust ($\mathbf{T_max}$), List of Planets ($\mathbf{Planets}$), Scaling Factors ($\mathbf{scales}$) 
     </div>
 
@@ -303,7 +302,7 @@ This is where states at the matchpoing from forward and backward propagating the
 
   <div class="alg-body">
     <div class="alg-line">
-      <span class="kw">Input:</span> Initial State ($\mathbf{x_0}$), Final State ($\mathbf{x_f}$), Impulses of Leg ($\mathbf{\Delta v_{leg}}$), Pitches of Leg ($\pmb{\phi_{leg}}$), Yaws of Leg ($\pmb{\psi_{leg}}$), <br>
+      <span class="kw">Input:</span> Initial State ($\mathbf{x_0}$), Final State ($\mathbf{x_f}$), Impulses of Leg ($\mathbf{\Delta v_{leg}}$), Pitches of Leg ($\pmb{\phi_{leg}}$), Yaws of Leg ($\pmb{\psi_{leg}}$), 
       Length of time per segment ($\mathbf{\Delta t}$), Gravitational Parameter of central body ($\pmb{\mu}$), Gravity ($\mathbf{g_0}$), Specific Impulse ($\mathbf{isp}$)
     </div>
 
@@ -342,7 +341,7 @@ This is where states at the matchpoing from forward and backward propagating the
 In the following toy problems, it will simulate an Earth-Mars trajectory (1 leg) along with an Earth-Mars-Earth trajectory (2 leg). This will be a direct transfer without any revolution in order to reduce the complexity of figuring out an initial guess.
 
 Some more optimizer settings includes the following lower and upper bounds:
-<p>• Initial / Final Time and Flyby Windows Upper / Lower Bounds: $+/- 2 Weeks from Initial Guess$  </p>
+<p>• Initial / Final Time and Flyby Windows Upper / Lower Bounds: $+/- 2$ Weeks from $T_0$ and $T_F$   </p>
 <p>• Impulse Magnitude Lower Bound: $0$</p>
 <p>• Pitch Upper / Lower Bound: $+/- \frac{\pi}{2}$ </p>
 <p>• Yaw Upper / Lower Bound: $2\pi$ & $0$ </p>
@@ -364,7 +363,7 @@ Both Mars and Earth will be assumed to be in a circular orbit around the sun.
 
 The constants of this scenario are as follows:
 <p>• Gravitational Parameter of the Sun ($\mu_{sun}$): $1.327e11 \frac{km^3}{s^2}$   </p>
-<p>• Gravitational Acceleration ($g_0$): $0.0098065 /frac{km}{s^2}$</p>
+<p>• Gravitational Acceleration ($g_0$): $0.0098065 \frac{km}{s^2}$</p>
 <p>• Initial Total Mass ($m_0$): $6000 kg$ </p>
 <p>• Max Thrust: $5N$ </p>
 <p>• ISP: $4000s$ </p>
