@@ -787,7 +787,7 @@ After this is completed, the error state is resetted ($\delta x$) to signal that
     <a href="#cite-propdb-ref" title="Back to main text">↑</a>
   </span><br>
   <a href="https://m-selig.ae.illinois.edu/props/propDB.html" target="_blank">
-    https://m-selig.ae.illinois.edu/props/propDB.html
+    [Link]
   </a>
 </li>
 
@@ -798,7 +798,7 @@ After this is completed, the error state is resetted ($\delta x$) to signal that
     <a href="#cite-quatOpt-ref" title="Back to main text">↑</a>
   </span><br>
   <a href="https://www.youtube.com/watch?v=gSeRXxaC5CM" target="_blank">
-    https://www.youtube.com/watch?v=gSeRXxaC5CM
+    [Link]
   </a>
 </li>
 
@@ -809,7 +809,7 @@ After this is completed, the error state is resetted ($\delta x$) to signal that
     <a href="#cite-savransky-ref" title="Back to main text">↑</a>
   </span><br>
   <a href="https://sioslab.com/wp-content/uploads/2021/09/MAE4060_Handouts.pdf#page=19" target="_blank">
-    https://sioslab.com/wp-content/uploads/2021/09/MAE4060_Handouts.pdf#page=19
+    [Link]
   </a>
 </li>
 
@@ -819,7 +819,7 @@ After this is completed, the error state is resetted ($\delta x$) to signal that
     <a href="#cite-wiki-tangentplanes-ref" title="Back to main text">↑</a>
   </span><br>
   <a href="https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates#Local_north,_east,_down_(NED)_coordinates" target="_blank">
-    https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
+    [Link]
   </a>
 </li>
 <li id="cite-sola">
@@ -827,8 +827,8 @@ After this is completed, the error state is resetted ($\delta x$) to signal that
   <span style="margin-left:0.5em; font-size:0.8em;">
     <a href="#cite-sola-ref" title="Back to main text">↑</a>
   </span><br>
-  <a href="https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates#Local_north,_east,_down_(NED)_coordinates" target="_blank">
-    https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
+  <a href="https://arxiv.org/pdf/1711.02508" target="_blank">
+    [Link]
   </a>
 </li>
 
@@ -838,8 +838,8 @@ After this is completed, the error state is resetted ($\delta x$) to signal that
   <span style="margin-left:0.5em; font-size:0.8em;">
     <a href="#cite-marley-ref" title="Back to main text">↑</a>
   </span><br>
-  <a href="https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates#Local_north,_east,_down_(NED)_coordinates" target="_blank">
-    https://en.wikipedia.org/wiki/Local_tangent_plane_coordinates
+  <a href="https://apps.dtic.mil/sti/tr/pdf/ADA588831.pdf" target="_blank">
+    [Link]
   </a>
 </li>
 

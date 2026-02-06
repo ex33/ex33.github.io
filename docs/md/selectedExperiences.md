@@ -26,6 +26,7 @@ More under "Experiences" tab.
     <p>• Designing and tuning filters for orbit determination / sensor fusion</p>
     <p>• Algorithm development for guidance modes / pointing, verification and validation through Monte-Carlo analyses</p>
     <p>• Maturing Con-ops throughout design reviews, communicating technical details at a high level to project leads</p>
+    <p>• Flight software and Software-in-the-Loop development for Aerocube program</p>
     <p>• Assortments of studies and analyses for various stakeholders</p>
     </div>
     <img src="/md/logos/aerospace_logo.png" class="timeline-logo-right" alt="Aerospace Corp">

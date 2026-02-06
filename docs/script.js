@@ -269,7 +269,12 @@ class MarkdownLoader {
             'allExperiences': 'md/allExperiences.md',
             'quadcopterPart0': 'quadcopterPart0.md', // relative to quadcopterPart0.html
             'quadcopterPart1': 'quadcopterPart1.md', // relative to quadcopterPart1.html
-            'quadcopterPart2': 'quadcopterPart2.md' // relative to quadcopterPart2.html
+            'quadcopterPart2': 'quadcopterPart2.md', // relative to quadcopterPart2.html
+            'mae6780': 'mae6780.md', // relative to mae6780.html
+            'mae6760': 'mae6760.md', // relative to mae6760.html
+            'simsFlanagan': 'simsFlanagan.md', // relative to sims_flanagan.html
+            'magnus-ultralight': 'magnus_ultralight.md', // relative to magnus_ultralight.html
+            'cislunar-explorers': 'cislunar_explorers.md' // relative to cislunar_explorers.html
         };
         this.init();
     }

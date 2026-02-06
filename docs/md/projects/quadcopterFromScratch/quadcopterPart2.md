@@ -3,6 +3,17 @@
 <a href="https://github.com/ex33/drone_sim" class="tag tag-big">GITHUB</a>
 ---
 
+<figure style="text-align: center;">
+  <img
+    src="images/FlightComputer.png"
+    alt="order-0-video2"
+    style="width: 50%; max-width: 1000px;"
+  >
+  <figcaption style="font-size: 0.8em">
+    Flight Computer Board
+  </figcaption>
+</figure>
+
 
 ## Summary
 <div class="latex-algorithm">
