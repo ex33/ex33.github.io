@@ -15,30 +15,34 @@ html {
 
 /* CSS Custom Properties for theming */
 :root {
-    /* Light theme colors (inspired by astro-theme-cactus) */
-    --color-global-bg: oklch(98.48% 0 0);
-    --color-global-text: oklch(26.99% 0.0096 235.05);
-    --color-link: oklch(55.44% 0.0431 185.69);
-    --color-accent: #af67ff;
-    --color-accent-2: oklch(18.15% 0 0);
-    --color-quote: #af67ff;
-    --color-border: #838588;
-    --color-card-bg: rgba(255, 255, 255, 0.8);
-    --color-shadow: rgba(0, 0, 0, 0.1);
+    /* Light theme colors — aerospace / mission control inspired (inverse mapping) */
+    --color-global-bg: oklch(98% 0 0);          /* almost white */
+    --color-global-text: oklch(36.002% 0.00004 271.152);        /* dark gray/black */
+    --color-link: #3476e0;                       /* link is now the “yellow” from dark theme */
+    --color-accent: #af67ff;                     /* coral-orange main accent */
+    --color-accent-2: #ffaa00;                   /* orbital blue secondary accent */
+    --color-quote: #ffaa00;                      /* blue for quotes (was yellow before) */
+    --color-border: #d6dee8;                     /* subtle borders */
+    --color-card-bg: rgba(247, 249, 252, 0.8);  /* semi-transparent card */
+    --color-shadow: rgba(0, 0, 0, 0.1);         /* subtle shadow */
 }
+
+
 
 /* Dark theme colors */
 [data-theme="dark"] {
-    --color-global-bg: oklch(23.64% 0.0045 248);
-    --color-global-text: oklch(83.54% 0 264);
-    --color-link: oklch(70.44% 0.1133 349);
-    --color-accent: #5ff26b;
-    --color-accent-2: oklch(94.66% 0 0);
-    --color-quote: oklch(94.8% 0.106 136.49);
-    --color-border: #374151;
-    --color-card-bg: rgba(31, 41, 55, 0.8);
-    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-global-bg: oklch(10% 0 0);          /* deep dark navy */
+    --color-global-text: oklch(85% 0 0);        /* light gray text */
+    --color-link: #5aa0ff;                       /* lighter orbital blue for links */
+    --color-accent: #5ff26b;                     /* coral-orange main accent */
+    --color-accent-2: #ffd166;                   /* solar gold secondary accent */
+    --color-quote: #ffdd88;                      /* softer gold for quotes */
+    --color-border: #1c2541;                     /* dark border */
+    --color-card-bg: rgba(11, 19, 43, 0.8);     /* semi-transparent card */
+    --color-shadow: rgba(0, 0, 0, 0.3);         /* stronger shadow for depth */
 }
+
+
 
 /* Base typography */
 body {
@@ -167,12 +171,16 @@ body {
     white-space: normal;
 }
 
-/* Custom component styles */
 .title {
-    color: var(--color-accent-2);
+    color: #000 !important;  /* force black in light mode */
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 2rem;
+}
+
+/* Dark theme */
+[data-theme="dark"] .title {
+    color: #fff !important;  /* force white in dark mode */
 }
 
 .cactus-link {
@@ -633,7 +641,6 @@ body {
     gap: 0.25rem;
     padding: 0.25rem 0.5rem;
     font-size: 1rem;
-    font-family: 'JetBrains Mono', monospace;
     color: var(--color-accent-2);
     text-decoration: none;
     border-radius: 0.375rem;
@@ -1076,6 +1083,36 @@ html {
     color: #6b7280;
 }
 
+/* Light theme */
+.tag-github,
+.tag-github:link,
+.tag-github:visited,
+.tag-github:hover,
+.tag-github:active {
+    background-color: color-mix(in srgb, #ffffff 15%, transparent);
+    border-color: #000000;
+    color: #000;                 /* black text */
+    text-decoration: underline;  /* keep underline */
+    font-weight: bold;           /* bold text */
+    padding: 0.2em 0.5em;
+    border-radius: 0.25em;
+    font-size: 0.8em;
+}
+
+/* Dark theme */
+[data-theme="dark"] .tag-github,
+[data-theme="dark"] .tag-github:link,
+[data-theme="dark"] .tag-github:visited,
+[data-theme="dark"] .tag-github:hover,
+[data-theme="dark"] .tag-github:active {
+    background-color: color-mix(in srgb, #000000 15%, transparent);
+    border-color: #ffffff;
+    color: #fff;                /* white text in dark mode */
+    text-decoration: underline;
+    font-weight: bold;           /* bold text */
+}
+
+
 .tag-big {
     font-size: 1rem;             /* bigger text */
     font-weight: 600;            /* keep bold */
@@ -1177,8 +1214,8 @@ html {
     width: var(--dot-size);
     height: var(--dot-size);
     border-radius: 9999px;
-    background: var(--color-accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 20%, transparent);
+    background: var(--color-accent-2);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent-2) 20%, transparent);
 }
 
 /* Timeline Header - Organization */
@@ -1202,7 +1239,7 @@ html {
     font-style: normal;  /* remove italics */
     font-weight: 700;    /* match org weight */
     word-spacing: 0.25rem;  /* reduce space between words */
-    color: color-mix(in srgb, var(--color-accent-2) 65%, transparent);
+    color: var(--color-accent-2);
 }
 
 /* Timeline Subtitle - Role / Location */
@@ -1387,4 +1424,58 @@ html {
 
 h1, h2, h3, h4, h5, h6, .title {
     font-family: 'Space Grotesk', sans-serif;
+}
+
+
+/* Base code snippet styling (light mode) */
+/* Base code snippet styling */
+.code-snippet {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.2;          /* tighten line height */
+    padding: 0.5rem 1rem;      /* reduce padding if needed */
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
+    overflow-x: auto;
+    white-space: pre;           /* important: no extra wrapping artifacts */
+    margin: 0;                  /* remove any margin */
+    background-color: inherit;
+    color: inherit;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    
+}
+/* Syntax highlighting for light mode */
+.code-snippet .preprocessor {
+    color: #d73a49; /* red for #include */
+    font-weight: bold;
+}
+
+.code-snippet .header {
+    color: #005cc5; /* blue for library names */
+}
+
+.code-snippet .comment {
+    color: var(--color-global-text); /* same as normal text */
+}
+
+.code-snippet::-webkit-scrollbar {
+    height: 7px;
+    width: 4px;
+}
+
+.code-snippet::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] .code-snippet .preprocessor {
+    color: #ff7b72; /* lighter red for dark mode */
+}
+
+[data-theme="dark"] .code-snippet .header {
+    color: #61bfff; /* lighter blue for dark mode */
+}
+
+[data-theme="dark"] .code-snippet .comment {
+    color: var(--color-global-text); /* same as normal text in dark mode */
 }

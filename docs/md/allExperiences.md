@@ -156,7 +156,7 @@
   </div>
 
   <div class="timeline-subtitle">
-    <span class="timeline-role">ENGRD 2210 Teaching Assistant</span>
+    <span class="timeline-role">MAE 2210 Teaching Assistant</span>
     <span class="timeline-meta">Ithaca, NY</span>
   </div>
     <div class="timeline-content-wrapper">

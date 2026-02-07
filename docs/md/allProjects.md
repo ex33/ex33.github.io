@@ -6,21 +6,27 @@ Here is a comprehensive list of my current and completed projects.
 
   <p><strong>Current Projects</strong></p>
 
-  <p>• [Project 1] Short description or focus</p>
-  <p>• [Project 2] Short description or focus</p>
-  <p>• [Project 3] Short description or focus</p>
+  <p>• <a href="#quadcopter-sim">Quadcopter from Scratch: 6DOF MATLAB Simulation</a></p>
+  <p>• <a href="#quadcopter-fsw">Quadcopter from Scratch: Flight Software</a></p>
 
-  <p><strong>Completed Projects</strong></p>
+  <p><strong>Completed Personal Projects</strong></p>
 
-  <p>• [Project A] Short description or focus</p>
-  <p>• [Project B] Short description or focus</p>
-  <p>• [Project C] Short description or focus</p>
+  <p>• <a href="#sims-flanagan">Sims-Flanagan Method Implementation</a></p>
+  <p>• <a href="#quadcopter-theory">Quadcopter from Scratch: Theory and Background</a></p>
+
+  <p><strong>Past University Projects</strong></p>
+
+  <p>• <a href="#alfano-collision">Collision Detection between Objects in Orbit via Alfano's Method</a></p>
+  <p>• <a href="#sac-rpo">Recreation of a Simple Adaptive Controller (SAC)</a></p>
+  <p>• <a href="#magnus-evtol">Exploration of Initial Control System Architecture for an E-VTOL utilizing Magnus Effect</a></p>
+  <p>• <a href="#cubesat-structure">Structural Design and Analysis of 12U Cubesat Bus</a></p>
 
 </div>
 
 
+
 ## Current Personal Projects
-<div class="project-card">
+<div class="project-card" id="quadcopter-sim">
     <div class="project-image">
         <img src="/md/projects/quadcopterFromScratch/simulation_videos/progression/trajectory_video_full_sim.gif" alt="Quadcopter Part1">
     </div>
@@ -43,7 +49,7 @@ Here is a comprehensive list of my current and completed projects.
     </div>
 </div>
 
-<div class="project-card">
+<div class="project-card" id="quadcopter-fsw">
     <div class="project-image">
         <img src="/md/projects/quadcopterFromScratch/images/FlightComputer.png" alt="Quadcopter Part2">
     </div>
@@ -67,7 +73,7 @@ Here is a comprehensive list of my current and completed projects.
 
 
 ## Completed Personal Projects
-<div class="project-card">
+<div class="project-card" id="sims-flanagan">
     <div class="project-image">
         <img src="/md/projects/simsFlanagan/sims_flanagan_thumbnail.png" alt="Sims Flanagan">
     </div>
@@ -90,7 +96,7 @@ Here is a comprehensive list of my current and completed projects.
     </div>
 </div>
 
-<div class="project-card"> 
+<div class="project-card" id="quadcopter-theory">
     <div class="project-image">
         <img src="/md/projects/quadcopterFromScratch/images/DroneInertialFrame.png" alt="Quadcopter Part0">
     </div>
@@ -113,8 +119,8 @@ Here is a comprehensive list of my current and completed projects.
 </div>
 
 
-## Past School Projects
-<div class="project-card">
+## Past University Projects
+<div class="project-card" id="alfano-collision">
     <div class="project-image">
         <img src="/md/projects/cornell/mae6760/mae6760_thumbnail.png" alt="mae6760">
     </div>
@@ -135,7 +141,7 @@ Here is a comprehensive list of my current and completed projects.
 </div>
 
 
-<div class="project-card">
+<div class="project-card" id="sac-rpo">
     <div class="project-image">
         <img src="/md/projects/cornell/mae6780/mae6780_thumbnail.png" alt="mae6780">
     </div>
@@ -156,7 +162,7 @@ Here is a comprehensive list of my current and completed projects.
     </div>
 </div>
 
-<div class="project-card">
+<div class="project-card" id="magnus-evtol">
     <div class="project-image">
         <img src="/md/projects/cornell/magnus_ultralight/magnus_ultralight_thumbnail.png" alt="mae6780">
     </div>
@@ -179,14 +185,14 @@ Here is a comprehensive list of my current and completed projects.
 </div>
 
 
-<div class="project-card">
+<div class="project-card" id="cubesat-structure">
     <div class="project-image">
         <img src="/md/projects/cornell/cislunar_explorers/cislunar_explorers_thumbnail.png" alt="mae6780">
     </div>
     <div class="project-content">
         <h3 class="project-title">
             <a href="/md/projects/cornell/cislunar_explorers/cislunar_explorers.html" class="project-link">
-                Structural Design and Analysis of 12U Bus
+                Structural Design and Analysis of 12U Cubesat Bus
             </a>
         </h3>
         <div class="project-venue">Space System Design Studio [SSDS]</div>

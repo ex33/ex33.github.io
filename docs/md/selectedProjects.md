@@ -26,3 +26,23 @@ More under "Projects" tab.
     </div>
 </div>
 
+<div class="project-card" id="quadcopter-fsw">
+    <div class="project-image">
+        <img src="/md/projects/quadcopterFromScratch/images/FlightComputer.png" alt="Quadcopter Part2">
+    </div>
+    <div class="project-content">
+        <h3 class="project-title">
+            <a href="/md/projects/quadcopterFromScratch/quadcopterPart2.html" class="project-link" target="_self">
+                Quadcopter from Scratch: Flight Software
+            </a>
+        </h3>
+        <div class="project-venue">Personal Project</div>
+        <div class="project-description"> <strong>Part 2 of building a quadcopter from "scratch". </strong> <br> 
+        With a simulation built, the next major step in this project is translating its components onto hardware. This part mostly goes over writing the flight software, briefly touching integration, and any other lessons learned from translating the algorithms from the MATLAB simulation onto the physical system. </div>
+        <div class="project-tags">
+            <span class="tag tag-language">C++</span>
+            <span class="tag tag-software">Flight Software (FSW)</span>
+            <a href="https://github.com/ex33/drone_flight_software" class="tag tag-github">GITHUB</a>
+        </div>
+    </div>
+</div>
