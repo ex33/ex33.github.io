@@ -18,7 +18,8 @@ Here is a comprehensive list of my current and completed projects.
 
   <p>• <a href="#alfano-collision">Collision Detection between Objects in Orbit via Alfano's Method</a></p>
   <p>• <a href="#sac-rpo">Recreation of a Simple Adaptive Controller (SAC)</a></p>
-  <p>• <a href="#comp-eng_physics">Computational Engineering Physics Python Scripts</a></p>
+  <p>• <a href="#comp-eng_physics">Computational Engineering Physics Python Library</a></p>
+  <p>• <a href="#formation_reconfig_repo">Formation Flying Python Library</a></p>
   <p>• <a href="#magnus-evtol">Exploration of Initial Control System Architecture for an E-VTOL utilizing Magnus Effect</a></p>
   <p>• <a href="#cubesat-structure">Structural Design and Analysis of 12U Cubesat Bus</a></p>
 
@@ -170,7 +171,7 @@ Here is a comprehensive list of my current and completed projects.
     <div class="project-content">
         <h3 class="project-title">
             <a href="https://github.com/ex33/Computational-Engineering-Physics" class="project-link">
-                Computational Engineering Physics Python Scripts
+                Computational Engineering Physics Python Library
             </a>
         </h3>
         <div class="project-venue">Class Project [AEP 5830]</div>
@@ -185,6 +186,27 @@ Here is a comprehensive list of my current and completed projects.
     </div>
 </div>
 
+<div class="project-card" id="formation_reconfig_repo">
+    <div class="project-image">
+        <!-- <img src="/md/projects/cornell/aep5830/aep5830_thumbnail.png" alt="aep5830"> -->
+    </div>
+    <div class="project-content">
+        <h3 class="project-title">
+            <a href="https://github.com/ex33/Formation_Reconfig" class="project-link">
+                Formation Flying Python Library
+            </a>
+        </h3>
+        <div class="project-venue">Space Imaging and Optical Systems [SIOS]</div>
+        <div class="project-description">
+        This is a repo of all the relevant python scripts written for the projects I have worked on under the SIOS lab in relations to formation flying / RPO of spacecrafts. 
+        [Page under construction...]</div>
+        <div class="project-tags">
+            <span class="tag tag-language">Python</span>
+            <span class="tag tag-control">Astrodynamics</span>
+            <a href="https://github.com/ex33/Formation_Reconfig" class="tag tag-github">GITHUB</a>
+        </div>
+    </div>
+</div>
 
 
 <div class="project-card" id="magnus-evtol">
