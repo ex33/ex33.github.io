@@ -16,7 +16,7 @@ More under "Experiences" tab.
     </div>
 
   <div class="timeline-subtitle">
-    <span class="timeline-role">Member of the Technical Staff</span>
+    <span class="timeline-role">Member of the Technical Staff - Flight Mechanics</span>
     <span class="timeline-meta">Los Angeles, CA</span>
   </div>
   <div class="timeline-content-wrapper">
@@ -24,8 +24,8 @@ More under "Experiences" tab.
     <p>• Member of the RPO Integration and Analysis Department (RAID)</p>
     <p>• Development of high fidelity 6DOF simulations and tools in C++/Python/MATLAB</p>
     <p>• Designing and tuning filters for orbit determination / sensor fusion</p>
-    <p>• Algorithm development for guidance modes / pointing, verification and validation through Monte-Carlo analyses</p>
-    <p>• Maturing Con-ops throughout design reviews, communicating technical details at a high level to project leads</p>
+    <p>• Algorithm development for satellite guidance modes / pointing, verification and validation through Monte-Carlo analyses</p>
+    <p>• Maturing Con-ops throughout design reviews, communicating analysis results at a high level to project leads</p>
     <p>• Flight software and Software-in-the-Loop development for Aerocube program</p>
     <p>• Assortments of studies and analyses for various stakeholders</p>
     </div>

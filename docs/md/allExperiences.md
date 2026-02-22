@@ -15,7 +15,7 @@
     </div>
 
   <div class="timeline-subtitle">
-    <span class="timeline-role">Member of the Technical Staff</span>
+    <span class="timeline-role">Member of the Technical Staff - Flight Mechanics</span>
     <span class="timeline-meta">Los Angeles, CA</span>
   </div>
   <div class="timeline-content-wrapper">
@@ -23,8 +23,8 @@
     <p>• Member of the RPO Integration and Analysis Department (RAID)</p>
     <p>• Development of high fidelity 6DOF simulations and tools in C++/Python/MATLAB</p>
     <p>• Designing and tuning filters for orbit determination / sensor fusion</p>
-    <p>• Algorithm development for guidance modes / pointing, verification and validation through Monte-Carlo analyses</p>
-    <p>• Maturing Con-ops throughout design reviews, communicating technical details at a high level to project leads</p>
+    <p>• Algorithm development for satellite guidance modes / pointing, verification and validation through Monte-Carlo analyses</p>
+    <p>• Maturing Con-ops throughout design reviews, communicating analysis results at a high level to project leads</p>
     <p>• Assortments of studies and analyses for various stakeholders</p>
     </div>
     <img src="/md/logos/aerospace_logo.png" class="timeline-logo-right" alt="Aerospace Corp">
@@ -141,7 +141,7 @@
     <div class="timeline-desc">
       <p>• Redesigned mounting structure for the rear wing to resolve instability issues and reduce disassembly time.</p>
       <p>• Designed and verify the components of the engine bay mounting structure, including weatherproof enclosures to protect shutdown circuitry PCBs using ANSYS Modal and Inventor.</p>
-      <p>• Designed and manufactured carbon fiber nosecone to redirect oncoming airflow towards the undertray to maximize downforc.</p>
+      <p>• Designed and manufactured carbon fiber nosecone to redirect oncoming airflow towards the undertray to maximize downforce.</p>
     </div>
     <img src="/md/logos/fsae_logo.png" class="timeline-logo-right" alt="MSS">
   </div>

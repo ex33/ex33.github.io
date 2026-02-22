@@ -6,13 +6,13 @@ Here is a comprehensive list of my current and completed projects.
 
   <p><strong>Current Projects</strong></p>
 
-  <p>• <a href="#quadcopter-sim">Quadcopter from Scratch: 6DOF MATLAB Simulation</a></p>
-  <p>• <a href="#quadcopter-fsw">Quadcopter from Scratch: Flight Software</a></p>
+  <p>• <a href="#quadcopter-sim">Quadcopter Project: 6DOF MATLAB Simulation</a></p>
+  <p>• <a href="#quadcopter-fsw">Quadcopter Project: Flight Software</a></p>
 
   <p><strong>Completed Personal Projects</strong></p>
 
   <p>• <a href="#sims-flanagan">Sims-Flanagan Method Implementation</a></p>
-  <p>• <a href="#quadcopter-theory">Quadcopter from Scratch: Theory and Background</a></p>
+  <p>• <a href="#quadcopter-theory">Quadcopter Project: Theory and Background</a></p>
 
   <p><strong>Past University Projects</strong></p>
 
@@ -33,11 +33,11 @@ Here is a comprehensive list of my current and completed projects.
     <div class="project-content">
         <h3 class="project-title">
             <a href="/md/projects/quadcopterFromScratch/quadcopterPart1.html" class="project-link" target="_self">
-                Quadcopter from Scratch: 6DOF MATLAB Simulation
+                Quadcopter Project: 6DOF MATLAB Simulation
             </a>
         </h3>
         <div class="project-venue">Personal Project</div>
-        <div class="project-description"> <strong>Part 1 of building a quadcopter from "scratch". </strong> <br> 
+        <div class="project-description"> <strong>Part 1 of building a quadcopter. </strong> <br> 
         As with all GNC systems, adequate modeling and simulation of its component is necessary for tuning its algorithm, hardware selection, and a first pass at validation through analyses such as Monte-Carlo. This project contains details on a simulation built in MATLAB featuring sensor / motor models, state estimation, and closed loop control of the position, velocity, attitude (quaternion), and body rates.</div>
         <div class="project-tags">
             <span class="tag tag-language">MATLAB</span>
@@ -56,12 +56,12 @@ Here is a comprehensive list of my current and completed projects.
     <div class="project-content">
         <h3 class="project-title">
             <a href="/md/projects/quadcopterFromScratch/quadcopterPart2.html" class="project-link" target="_self">
-                Quadcopter from Scratch: Flight Software
+                Quadcopter Project: Flight Software
             </a>
         </h3>
         <div class="project-venue">Personal Project</div>
-        <div class="project-description"> <strong>Part 2 of building a quadcopter from "scratch". </strong> <br> 
-        With a simulation built, the next major step in this project is translating its components onto hardware. This part mostly goes over writing the flight software, briefly touching integration, and any other lessons learned from translating the algorithms from the MATLAB simulation onto the physical system. </div>
+        <div class="project-description"> <strong>Part 2 of building a quadcopter. </strong> <br> 
+        With a simulation built, the next major step in this project is translating its components onto hardware. This part mostly goes over writing the flight software, briefly touching integration, and any other lessons learned from translating the algorithms from the MATLAB simulation onto the physical system. Towards the end, there are multiple videos containing closed-loop testing, verification, and validation of the attitude controller. </div>
         <div class="project-tags">
             <span class="tag tag-language">C++</span>
             <span class="tag tag-software">Flight Software (FSW)</span>
@@ -103,11 +103,11 @@ Here is a comprehensive list of my current and completed projects.
     <div class="project-content">
         <h3 class="project-title">
             <a href="/md/projects/quadcopterFromScratch/quadcopterPart0.html" class="project-link" target="_self">
-                Quadcopter from Scratch: Theory and Background
+                Quadcopter Project: Theory and Background
             </a>
         </h3>
         <div class="project-venue">Personal Project</div>
-        <div class="project-description"> <strong>Part 0 of building a quadcopter from "scratch". </strong> <br> 
+        <div class="project-description"> <strong>Part 0 of building a quadcopter. </strong> <br> 
         This isn't really a project, but attempts to contain a comprehensive background of all the theories and algorithms that is within the simulation and eventually the flight software. This is here in case
         something seems weird within the code or something needs more explanation. Its also a resource for me to quickly refer back to when developing features, so warning if you're sensitive to grammatic errors.</div>
         <div class="project-tags">

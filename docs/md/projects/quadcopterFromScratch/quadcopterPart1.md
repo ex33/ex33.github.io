@@ -1,5 +1,5 @@
-# Quadcopter from Scratch: 6DOF MATLAB Simulation
-**Part 1 of building a quadcopter from "scratch"** <br>
+# Quadcopter Project: 6DOF MATLAB Simulation
+**Part 1 of building a quadcopter** <br>
 <a href="https://github.com/ex33/drone_sim" class="tag tag-big">GITHUB</a>
 ---
 <figure style="text-align: center;">
@@ -25,6 +25,9 @@ This is <strong>Part 1</strong> of my quadcopter project. This part will go over
 <p>• Closed-loop propagation through non-linear dynamics for end-to-end GNC validation</p>
 
 For more background material, see [Part 0](quadcopterPart0.html). This section contains little to no context on some of the things that goes on, so it somewhat requires taking a quick look at the previous section. I will try to come back here and make this more stand-alone at some point.
+
+
+This was the status of my Simulation as of [1/15/2026]
 
 ## Table of Content
 <span style="font-size:1.3em;">• <a href="#introduction">Introduction</a></span><br>
@@ -72,23 +75,23 @@ For more background material, see [Part 0](quadcopterPart0.html). This section c
 
 
 <h2 id="Introduction">Introduction</h2>
-Since this is the first part, the introduction to this project will be place here. 
+Since this is the first part, the introduction to this project will be placed here. 
 
-From my first full time role, I was able to gain lots of experience in simulation and modeling of satellites, having the opportunities to determine necessary answers to mature a design from conception, and executing the accompanying analysis needed for design choices. I was able to deepen my understanding of many GNC concepts from my coursework through real world applications, particularly in state estimation, guidance algorithms (orbital maneuvers/trajectories and attitude pointing), and system level integration of hardware. I also become more confident in my software skills, having to learn RPO and C++ at the same time, and spending hundreds of hours contributing to the many simulation tools and approving pull requests.  
+From my first full time role, I was able to gain lots of experience in simulation and modeling of satellites, having the opportunities to determine necessary answers to mature a design from conception, and executing the accompanying analysis needed for design choices. I was able to deepen my understanding of many GNC concepts from my coursework through real world applications, particularly in state estimation, guidance algorithms (orbital maneuvers/trajectories and attitude pointing), and system level integration of hardware. I also became more confident in my software skills, having to learn RPO and C++ at the same time, and spending hundreds (if not thousands) of hours contributing to the many simulation tools and reviewing/approving pull requests.  
 
-However, at the start of this, my main knowledge gap still lies within the transition from simulation onto real hardware and all the associated challeges that comes with that, which is what I'd hoped to bridge with this project. While I would have loved to build a satellite at home, I do not have the funding to launch it, leading me to select a quadcopter as it requires the same algorithms/skills to design from scratch and is controllable in all 6 degrees of freedom. 
+However, at the start of this, my main knowledge gap still lies within the transition from simulation onto real hardware and all the associated challeges that come with that, which is what I'd hoped to bridge with this project. While I would have loved to build a satellite at home, I do not have the funding to launch it, leading me to select a quadcopter as it requires the same algorithms/skills to design from scratch and is controllable in all 6 degrees of freedom. 
 
-And seeing as drones and satellites have nothing else in common (aside from the control and estimation theories), I should be safe from unknowingly using any sensitive knowledge. 
+Since drones and satellites have nothing else in common (aside from the control and estimation theories), I should be safe from unknowingly using any sensitive knowledge. 
 
 <strong>Disclaimer: </strong> <br>
 This project is mostly for me to learn what it takes to get a customized GNC system flying on a quadcopter. Given that I have a full time job, I wasn't planning to build the best quadcopter or do anything novel yet. The focus was for me to learn and try to see how well I can make the final product myself (so no references to open source software like Betaflight or Ardupilot). 
 
-Additionally, I put the "scratch" part of this project in quotation marks since there are some components that I chose to save the learning for a later point. This mostly involved using breakout boards with compatible libraires to avoid developing the low level interfaces, and skipping the PCB design of the flight computer (I use a Teesny4.1 and soldered everything to a prototyping board), but more on the hardware choices later. While I do hope to make these custom at some point, it would've added severe delay to a first prototype, which would just be validating the GNC algorithms. 
+Additionally, I chose to focus on the simulation and translation of the algorithms onto hardware. This meant using breakout boards with compatible libraires to avoid developing the low level interfaces, and skipping the PCB design of the flight computer (I use a Teesny4.1 and soldered everything to a prototyping board), but more on the hardware choices later. While I do hope to make these custom at some point, it would've added severe delay to a first prototype, which would just be validating the GNC algorithms. 
 
 ---
 
 <h2 id="Overview">Overview</h2>
-My simulation was written in MATLAB due to the ability to quickly diagonose bugs with its robust ability to put breakpoint and step through files line by line, extracting out each variable value. 
+My simulation was written in MATLAB due to the ability to quickly diagnose bugs with its robust ability to put breakpoint and step through files line by line, extracting out each variable value. 
 
 While theoretically this could've all been done in a faster language, I didn't plan on extended studies requiring a large batches. This was meant to give me a sandbox to quicky iterate through software designs, tune my filters / controllers, and observe behaviors given uncertainties in the system parameters. 
 
@@ -122,7 +125,7 @@ There are 4 sensor classes: IMU, Magnetometer, Altimeter, and GPS.
 
 Within the main loop, there is a "getSensors" function that given the simulation time, current state and control, and all the sensor instances, collects all avaliable sensor measurements for the given timestep, and compile them into a vector.
 
-All of these sensors returns the RAW measurements, such that I am book-keeping all the different conversions I need to have in my Sensors Module on the FSW. Things includes things like converting LLA to NED positions for the GPS, pressure to height for the altimeter, and general rotations to convert the sensor frame components into the body frame. 
+All of these sensors return the RAW measurements, such that I am book-keeping all the different conversions I need to have in my Sensors Module on the FSW. This includes converting LLA to NED positions for the GPS, pressure to height for the altimeter, and general rotations to convert the sensor frame components into the body frame. 
 
 <div class="latex-algorithm">
   <div class="alg-title">getSensors.m</div>
@@ -188,7 +191,7 @@ There isn't too much to add here as the function call is just two lines (one tha
 
 The two versions of the filters came from more of a testing perspective. It was considerably easier to tune the no bias state filter, giving me confidence that if there was a bug or implementation error that I could not figure out, I still have something to proceed with and not become a blocker. Additionally, at the time it wasn't clear if I wanted to even implement the bias states within the filter for the FSW, as my flights would not nearly last long enough for the bias of the IMU to grow to a point that would impact the state estimation. They perhaps would be useful for taking care of unaccounted biases and allow the filter to account for them, but for something like the magnetometer bias, this behavior lead to some undesireable results (discussed more in Part 2).
 
-As for the update step, I started off with a matrix update. This just means if the GPS measurement comes in for example, its processed with a matrix inversion. However, to avoid needing to do that for my FSW, I also added in the option to process all measurements as a scalar (so break up the components, treating them as uncorrelated with each other, and then process them). There may be a loss of accuracy doing this, which was why I wanted to verify it was fine in simulation first. 
+As for the update step, I started off with a matrix update. This just means if the GPS measurement comes in for example, its processed with a matrix inversion. However, to avoid needing to do that for my FSW, I also added in the option to process all measurements as a scalar by breaking up the components, treating them as uncorrelated, and processing them individually. There may be a loss of accuracy doing this, which was why I wanted to verify it was fine in simulation first. 
 
 <h3 id="guidance">Guidance</h3>
 The true / estimated states (selected from input file) along with user inputted guidance parameters are passed into "run_guidance" to then calculate the LQR system matrices linearized about the desired reference points and nominal control. 
@@ -292,7 +295,7 @@ The time delay here is also modeled as a first order transfer function ($\frac{1
 There isn't any algorithm here to mention, as this is just a call ode45 to propagate true states forward with the thrust and torques. 
 
 <h2 id="simulation-progression">Simulation Progression</h2>
-As with all simulations, this didn't come about overnight. As I have learned from building up simulations at work, its always tempting to just jump into simulating the highest fidelity with all the bits and bobs, especially when it is all built out and avaliable to you as an analyst. I've quickly got into the habit of thinking about how to get the same result for the least amount of effort, and slowly adding fidelity only when I am confident in the results, which I applied religiously to this project. While I probably have the experience to build this entire 6DOF simulation at once, it would have been riddled with bugs and weird interactions between classes and functions that I could not have foreseen. I do not have a team of people ready to review my PRs, so I had to be a little more methodical in the way this was built up. 
+As with all simulations, this didn't come about overnight. As I have learned from building up simulations at work, its always tempting to just jump into simulating the highest fidelity with all the bits and bobs, especially when it is all built out and avaliable to you as an analyst. I've quickly got into the habit of thinking about how to get the same result for the least amount of effort, and slowly adding fidelity only when I am confident in the results, which I applied religiously to this project. I probably have the experience to build this entire 6DOF simulation at once, but it would be riddled with bugs and weird interactions between classes and functions that I could not have foreseen. I do not have a team of people ready to review my PRs, so I had to be slower in the way this was built up. 
 
 While I don't have notes on every single progression, there were three phases I had planned to break this simulation up into from the start:
 
@@ -313,7 +316,7 @@ While that isn't particularly hard, here is a video from one of my first commits
     style="width: 100%; max-width: 1000px;"
   >
   <figcaption style="font-size: 0.9em">
-    Figure 2: Over-0 Simulation Progress 1
+    Figure 2: Order-0 Simulation Progress 1
   </figcaption>
 </figure>
 
@@ -373,10 +376,10 @@ I also used a reference that ramps up to the final target to avoid a large initi
 <h2 id="utilizing-the-simulation">Utilizing the Simulation</h2>
 So far, this simlation was used to validate the algorithms before quickly moving onto the FSW. This includes using the best estimate of the system parameters and tuning the filters accordingly such that closed loop performance is achieved as desired. This section will briefly go over how I did that.
 
-<h3 id="component-selection">Hardware Selection</h3>
+<h3 id="hardware-selection">Hardware Selection</h3>
 Taking a step away from the simulation, at a minimum, all the components needed to be selected in order to know what needs to be simulated and how. This included things like the airframe, motors and propellers, ESCs, battery, and sensors / microcontroller. 
 
-At the size and hobby level, most of these items will perform about the same given the price points I was looking at.
+At the size and hobby level, most of these items will perform similarly given the price points I considered.
 
 Below are just a couple items I thought were worth mentioning:
 
@@ -384,10 +387,10 @@ Below are just a couple items I thought were worth mentioning:
 The airframe selected is a 5-inch X shaped frame, which is a moderate size for this project as it isn't large enough that I'd be concern it would do much damage indoors, but also not small enough that it becomes overly reactive. The X shaped frame also means its fully symmetric in terms of moment arms to the pitch and roll axes, and the 5-inch represents diameter of the recommended propellers.
 
 <h4 id="battery">Battery</h4>
-The battery selected was a 6S Li-Po composition, the 6S representing 6 4.2V cell connected in series to provide a max NOMINAL voltage of 22.2V (so typically batteries shows the 22.2V rather than the actual 25.2V). The cost of higher number of cells is mostly mass (due to battery itself weighing more and requiring higher rated components), but you end up getting longer flight times and generally less resistive losses (since $P_{loss} = I^2R$, and the current decreases for higher voltage). I ended up opting for a 6S to maxmimize flight times when testing outdoors. 
+The battery selected was a 6S Li-Po composition, the 6S representing 6 4.2V cell connected in series to provide a max NOMINAL voltage of 22.2V (so typically batteries shows the 22.2V rather than the actual 25.2V). The cost of higher number of cells is mostly mass (due to battery itself weighing more and requiring higher rated components), but you end up getting longer flight times and generally less resistive losses (since $P_{loss} = I^2R$, and the current decreases for higher voltage). I ended up opting for a 6S to maximize flight times. 
 
 <h4 id="motors">Motors</h4>
-Brushless motors are typically parameterized by the rated KV, which determines how much RPM per volt the motor can output. I ended up with a 1800KV motor given that I selected a higher cell number, I didn't need a higher KV motor. Selecting a KV thats too high for the battery while can allow for higher spin rates, but then it'll request more currents to meet the demanded torque output, causing potential issues for the electronics and also loss of any benefits from the previous point. 
+Brushless motors are typically parameterized by the rated KV, which determines how much RPM per volt the motor can output. I ended up with a 1800KV motor given that I selected a higher cell number, I didn't need a higher KV motor. Selecting a KV that's too high for the battery while can allow for higher spin rates, but then it'll request more currents to meet the demanded torque output, causing potential issues for the electronics and also loss of any benefits from the previous point. 
 
 <h4 id="propellers">Propellers</h4>
 The propellers were selected to be 5x4x3, so they were 5 inches in diameter, 3 bladed, with a 4 inch pitch. The 5 inches were determined by the airframe selected. The pitch represents how angled the propellers are, which a higher pitch representing a more aggressive drone (at the cost of more load), while a smaller value has better efficency and is smoother. The number of blades has about the same relationship, where more blades represents more thrust while less blades results in less thrust. Again, there isn't too much options here, and a pretty standard configuration is a 5x4x3, so that was selected. 
@@ -441,9 +444,34 @@ The white noise for the IMU is also provided, but in terms of a noise spectral d
 • $\mathbf{\sigma_{Acc} = 0.028 \frac{m}{s^2}}$  <br>
 • $\mathbf{\sigma_{Gyro} = 0.0031 \frac{rad}{s}}$  <br>
 
-The Rate-Random Walks parameters were not provided, but an Allan Variance Curve can be generated from a long period of data collection to obtain this. [Placeholder, will come back and add]
+The Rate Random Walk parameters were not provided, but an Allan Variance Curve can be generated from a long period of data collection to obtain this. 
 
-<h4 id="sensor-noise-parameters">Vehicle Parameters</h4>
+<figure style="text-align: center;">
+  <img
+    src="images/AllanVariance.png"
+    alt="order-0-video3"
+    style="width: 80%; max-width: 1000px;"
+  >
+  <figcaption style="font-size: 0.9em">
+    Figure 6: Allan Variance Plot
+  </figcaption>
+</figure>
+
+Above is an example of a generated Allan Variance Plot from logging the stationary IMU for 10 hours. This specific plot is of the X component of the accelerometer. 
+
+As a refresher, this plot has the 3 regions of interest already plotted on here. The Red dotted line represents a slope of -0.5, and is the white noise region. In this region, the line evaluated at $\tau = 1$ is what the white noise parameter would be.
+
+On the opposite end, the Yellow dotted line represents a slope of +0.5, and is the rate-random walk region. Here, the line evaluated at $\tau = 3$ is what the random walk parameter would be. 
+
+This plot also includes an additional bias instability region, which is where the slope is 0. This effectively just means the lowest point of the curve would be taken to be the bias instability parameter (but this isn't modeled).
+
+So for this specific example, the white noise would have a $\sigma_{WN} = 5.5e-3$, while the RRW would have a $\sigma_{RW} = 1.6e-4$
+
+Strangely, the measured white noise is smaller than the spec sheet predicts. While its unclear of the exact environment tested in the spec sheet, there could be a number of factors causing the difference. So to be conservative, the value from the data sheet will be assumed to be what is expected. Additionally, from this, it can also be seen that the RRW value is about 1 order of magnitude smaller than the white noise, which is verified by reviewing other IMU data sheets that does provide this value. Thus, once again, to err on the side of conservatism, it will be assumed the RRW parameter is 1 order of magnitude smaller.
+
+
+
+<h4 id="vehicle-parameters">Vehicle Parameters</h4>
 While in-accuracies in the sensor noise parameters are limited to the filter (and thus can be counter-acted by on-board tuning), the vehicle parameters themselves are slighly more important in getting a representative simulation and testing out the stability of the controller. 
 
 These included the following:

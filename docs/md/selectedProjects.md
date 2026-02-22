@@ -3,18 +3,18 @@
 More under "Projects" tab.
 
 
-<div class="project-card">
+<div class="project-card" id="quadcopter-sim">
     <div class="project-image">
         <img src="/md/projects/quadcopterFromScratch/simulation_videos/progression/trajectory_video_full_sim.gif" alt="Quadcopter Part1">
     </div>
     <div class="project-content">
         <h3 class="project-title">
             <a href="/md/projects/quadcopterFromScratch/quadcopterPart1.html" class="project-link" target="_self">
-                Quadcopter from Scratch: 6DOF MATLAB Simulation
+                Quadcopter Project: 6DOF MATLAB Simulation
             </a>
         </h3>
         <div class="project-venue">Personal Project</div>
-        <div class="project-description"> <strong>Part 1 of building a quadcopter from "scratch". </strong> <br> 
+        <div class="project-description"> <strong>Part 1 of building a quadcopter. </strong> <br> 
         As with all GNC systems, adequate modeling and simulation of its component is necessary for tuning its algorithm, hardware selection, and a first pass at validation through analyses such as Monte-Carlo. This project contains details on a simulation built in MATLAB featuring sensor / motor models, state estimation, and closed loop control of the position, velocity, attitude (quaternion), and body rates.</div>
         <div class="project-tags">
             <span class="tag tag-language">MATLAB</span>
@@ -33,12 +33,12 @@ More under "Projects" tab.
     <div class="project-content">
         <h3 class="project-title">
             <a href="/md/projects/quadcopterFromScratch/quadcopterPart2.html" class="project-link" target="_self">
-                Quadcopter from Scratch: Flight Software
+                Quadcopter Project: Flight Software
             </a>
         </h3>
         <div class="project-venue">Personal Project</div>
-        <div class="project-description"> <strong>Part 2 of building a quadcopter from "scratch". </strong> <br> 
-        With a simulation built, the next major step in this project is translating its components onto hardware. This part mostly goes over writing the flight software, briefly touching integration, and any other lessons learned from translating the algorithms from the MATLAB simulation onto the physical system. </div>
+        <div class="project-description"> <strong>Part 2 of building a quadcopter. </strong> <br> 
+        With a simulation built, the next major step in this project is translating its components onto hardware. This part mostly goes over writing the flight software, briefly touching integration, and any other lessons learned from translating the algorithms from the MATLAB simulation onto the physical system. Towards the end, there are multiple videos containing closed-loop testing, verification, and validation of the attitude controller. </div>
         <div class="project-tags">
             <span class="tag tag-language">C++</span>
             <span class="tag tag-software">Flight Software (FSW)</span>
@@ -46,3 +46,5 @@ More under "Projects" tab.
         </div>
     </div>
 </div>
+
+

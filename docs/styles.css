@@ -20,8 +20,8 @@ html {
     --color-global-text: oklch(36.002% 0.00004 271.152);        /* dark gray/black */
     --color-link: #3476e0;                       /* link is now the “yellow” from dark theme */
     --color-accent: #af67ff;                     /* coral-orange main accent */
-    --color-accent-2: #ffaa00;                   /* orbital blue secondary accent */
-    --color-quote: #ffaa00;                      /* blue for quotes (was yellow before) */
+    --color-accent-2: #e08e00;                   /* orbital blue secondary accent */
+    --color-quote: #e08e00;                      /* blue for quotes (was yellow before) */
     --color-border: #d6dee8;                     /* subtle borders */
     --color-card-bg: rgba(247, 249, 252, 0.8);  /* semi-transparent card */
     --color-shadow: rgba(0, 0, 0, 0.1);         /* subtle shadow */
@@ -1214,8 +1214,8 @@ html {
     width: var(--dot-size);
     height: var(--dot-size);
     border-radius: 9999px;
-    background: var(--color-accent-2);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent-2) 20%, transparent);
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 20%, transparent);
 }
 
 /* Timeline Header - Organization */
@@ -1478,4 +1478,18 @@ h1, h2, h3, h4, h5, h6, .title {
 
 [data-theme="dark"] .code-snippet .comment {
     color: var(--color-global-text); /* same as normal text in dark mode */
+}
+
+.video-container {
+    width: 100%;
+    max-width: 950px;
+    margin: 2rem auto;
+}
+
+.video-container video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    display: block;
 }
