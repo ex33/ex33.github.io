@@ -742,7 +742,7 @@ Below is the first test on my stand:
 
 <div class="video-container">
     <video controls>
-  <source src="attitudeStandFigures/testA/testAVideo.mp4" type="video/mp4">
+  <source src="attitudeStandFigures/TestA/testAVideo.mp4" type="video/mp4">
     </video>
 </div>
 
@@ -753,12 +753,12 @@ From what little data I was able to gather, the first thing to investigate is th
 <figure style="text-align: center; max-width: 1000px; margin: auto;">
   <div style="display: flex; justify-content: center; gap: 1em; flex-wrap: wrap;">
     <img
-      src="attitudeStandFigures/testA/testA_TorquePlots.png"
+      src="attitudeStandFigures/TestA/testA_TorquePlots.png"
       alt="Flight Computer Soldered"
       style="width: 45%; max-width: 500px; height: auto;"
     >
     <img
-      src="attitudeStandFigures/testA/testA_PWMPlots.png"
+      src="attitudeStandFigures/TestA/testA_PWMPlots.png"
       alt="Flight Computer Board"
       style="width: 45%; max-width: 500px; height: auto;"
     >
@@ -783,7 +783,7 @@ Below is the second test on my stand:
 
 <div class="video-container">
     <video controls>
-  <source src="attitudeStandFigures/testB/testBVideo.mp4" type="video/mp4">
+  <source src="attitudeStandFigures/TestB/testBVideo.mp4" type="video/mp4">
     </video>
 </div>
 
@@ -838,7 +838,7 @@ Below is the third test on my stand:
 
 <div class="video-container">
     <video controls>
-  <source src="attitudeStandFigures/testC/testCVideo.mp4" type="video/mp4">
+  <source src="attitudeStandFigures/TestC/testCVideo.mp4" type="video/mp4">
     </video>
 </div>
 
@@ -854,7 +854,7 @@ Below is the fourth test on my stand:
 
 <div class="video-container">
     <video controls>
-  <source src="attitudeStandFigures/testD/testDVideo.mp4" type="video/mp4">
+  <source src="attitudeStandFigures/TestD/testDVideo.mp4" type="video/mp4">
     </video>
 </div>
 
@@ -869,7 +869,7 @@ Below is the fifth test on my stand:
 
 <div class="video-container">
     <video controls>
-  <source src="attitudeStandFigures/testE/testEVideo.mp4" type="video/mp4">
+  <source src="attitudeStandFigures/TestE/testEVideo.mp4" type="video/mp4">
     </video>
 </div>
  
