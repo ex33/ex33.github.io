@@ -18,6 +18,7 @@ Here is a comprehensive list of my current and completed projects.
 
   <p>• <a href="#alfano-collision">Collision Detection between Objects in Orbit via Alfano's Method</a></p>
   <p>• <a href="#sac-rpo">Recreation of a Simple Adaptive Controller (SAC)</a></p>
+  <p>• <a href="#comp-eng_physics">Computational Engineering Physics Python Scripts</a></p>
   <p>• <a href="#magnus-evtol">Exploration of Initial Control System Architecture for an E-VTOL utilizing Magnus Effect</a></p>
   <p>• <a href="#cubesat-structure">Structural Design and Analysis of 12U Cubesat Bus</a></p>
 
@@ -161,6 +162,30 @@ Here is a comprehensive list of my current and completed projects.
         </div>
     </div>
 </div>
+
+<div class="project-card" id="comp-eng_physics">
+    <div class="project-image">
+        <!-- <img src="/md/projects/cornell/aep5830/aep5830_thumbnail.png" alt="aep5830"> -->
+    </div>
+    <div class="project-content">
+        <h3 class="project-title">
+            <a href="https://github.com/ex33/Computational-Engineering-Physics" class="project-link">
+                Computational Engineering Physics Python Scripts
+            </a>
+        </h3>
+        <div class="project-venue">Class Project [AEP 5830]</div>
+        <div class="project-description">
+        This is a repo of all the relevant python scripts written for the various concepts taught in the course, ranging from simple root finding, to integrators, to finite difference methods. 
+        [Page under construction...]</div>
+        <div class="project-tags">
+            <span class="tag tag-language">Python</span>
+            <span class="tag tag-control">Numerical Methods</span>
+            <a href="https://github.com/ex33/Computational-Engineering-Physics" class="tag tag-github">GITHUB</a>
+        </div>
+    </div>
+</div>
+
+
 
 <div class="project-card" id="magnus-evtol">
     <div class="project-image">
